@@ -16,7 +16,12 @@ docs/_build
 *.bak
 *.org
 dump.rdb
-
+DS_Store
+.idea
+park_vue/node_modules/*
+./park_vue/npm-debug.log
+./park_vue/.editorconfig
+./park_vue/dist/
 .cache
 .env
 

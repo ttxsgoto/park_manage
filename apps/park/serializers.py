@@ -81,6 +81,8 @@ class CarPostionSerializer(ModelSerializer):
     def to_representation(self, instance):
         data = super(CarPostionSerializer, self).to_representation(instance)
         data['member'] = MemberListSerializer(instance.member).data if instance.member else {}
+        data['is_member_ch'] = '是' if instance.is_member else '否'
+        data['is_valid_ch'] = '是' if instance.is_valid else '否'
         return data
 
 

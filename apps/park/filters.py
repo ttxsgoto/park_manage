@@ -7,9 +7,11 @@ from apps.park.models import CarPostion, Member, TempAmount
 
 
 class CarPostionFilter(django_filters.FilterSet):
+    plate_number = django_filters.CharFilter(name='plate_number', lookup_expr='icontains')
+
     class Meta:
         model = CarPostion
-        fields = ['is_member', 'is_valid', 'id']
+        fields = ['is_member', 'is_valid', 'id', 'plate_number']
 
 
 class TempAmountFilter(django_filters.FilterSet):
