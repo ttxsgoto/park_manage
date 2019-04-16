@@ -3,7 +3,7 @@
 <template>
     <div>
         <div class="nav-tab">
-            <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
+            <el-tabs v-model="activeName" type="card">
                 <!-- <el-tab-pane label="车位管理" name="payment"> -->
                 <div class="tab-screen">
                     <el-form class="search-filters-form" label-width="80px" :model="searchFilters" status-icon>
@@ -228,11 +228,11 @@
 
         },
 
-        handleClick: function (tab, event) {
-            if (tab.name === 'meet') {
-                this.$router.push({path: "/supplierManage"});
-            }
-        },
+        // handleClick: function (tab, event) {
+        //     if (tab.name === 'meet') {
+        //         this.$router.push({path: "/supplierManage"});
+        //     }
+        // },
         pageChange: function () {
             setTimeout(() => {
                 this.getList();

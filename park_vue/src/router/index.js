@@ -100,10 +100,20 @@ let routes = [
         path: '/carpostion',
         component: Home,
         name: '车位管理',
-        iconCls: 'el-icon-message',//图标样式class
+        iconCls: 'el-icon-menu',
         leaf: true,//只有一个节点
         children: [
             {path: '/carpostion', component: carpostion, name: '车位管理',},
+        ]
+    },
+    {
+        path: '/carpostion',
+        component: Home,
+        name: '会员管理',
+        iconCls: 'fa fa-id-card-o',
+        leaf: true,//只有一个节点
+        children: [
+            {path: '/carpostion', component: carpostion, name: '会员管理',},
         ]
     },
     {
