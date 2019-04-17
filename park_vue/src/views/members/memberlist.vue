@@ -126,7 +126,7 @@
                     param: 'phone',
                     width: '200'
                 }, {
-                    title: '身份证',
+                    title: '身份证号码',
                     param: 'identity_card',
                     width: '100'
                 }, {

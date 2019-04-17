@@ -8,7 +8,7 @@
                 <div class="tab-screen">
                     <el-form class="search-filters-form" label-width="80px" :model="searchFilters" status-icon>
                         <el-row :gutter="0">
-                        D    <el-col :span="12">
+                            <el-col :span="12">
                                 <el-input placeholder="请输入" v-model="searchFilters.keyword"
                                           @keyup.native.13="startSearch" class="search-filters-screen">
                                     <el-select v-model="searchFilters.field" slot="prepend" placeholder="请选择">
