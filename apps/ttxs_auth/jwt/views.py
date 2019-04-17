@@ -65,8 +65,7 @@ class LoginView(JSONWebTokenAPIView):
         return Response({
             'code': -1,
             'msg': serializer.errors,
-            'status': status.HTTP_400_BAD_REQUEST
-        })
+            'status': status.HTTP_400_BAD_REQUEST})
 
 
 class LogoutView(viewsets.ModelViewSet):

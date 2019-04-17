@@ -250,14 +250,30 @@ CORS_ORIGIN_REGEX_WHITELIST = (
     'localhost:3030',
     '127.0.0.1',
 )
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+        'ENGINE': 'django.db.backends.mysql',
+        'HOST': '127.0.0.1',
+        'USER': 'root',
+        'PASSWORD': 'admin',
+        'PORT': 3306,
+        'NAME': 'park_manage',
+        'OPTIONS': {
+            'charset': 'utf8mb4'
+        }
+    },
 }
 
 """
+create database park_manage default character set utf8;
+docker run --name my_mysql -e MYSQL_ROOT_PASSWORD=admin -d  -it -p 3306:3306 mysql
 python manage.py makemigrations
 python manage.py migrate
 python manage.py create_postions
@@ -265,5 +281,10 @@ python manage.py createsuperuser
     - admin01 / admin01
     - admin02 / admin02
     - admin-3 / admin03
+
+# vue 
+cd park_vue
+npm install
+npm audit fix --force
 
 """

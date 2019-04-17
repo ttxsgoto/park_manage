@@ -63,27 +63,12 @@
                               v-loading="pageLoading" :class="{'tabal-height-500':!tableData.length}">
                         <el-table-column v-for="(item,key) in thTableList" :key="key" :prop="item.param"
                                          align="center" :label="item.title" :width="item.width">
-                            <!--<template slot-scope="scope">-->
-                            <!--<div v-if="item.param==='payment_datetime'">{{scope.row[item.param]|dateFilter}}-->
-                            <!--</div>-->
-                            <!--<div v-else>-->
-                            <!--<div v-if="item.param==='desc'" class='td-hover' :title="scope.row[item.param]">-->
-                            <!--{{scope.row[item.param]}}-->
-                            <!--</div>-->
-                            <!--<div v-else>-->
-                            <!--{{scope.row[item.param]}}-->
-                            <!--</div>-->
-                            <!--</div>-->
-                            <!--</template>-->
                         </el-table-column>
                         <el-table-column label="操作" align="center">
                             <template scope="scope">
                                 <el-button type="primary" size="mini" @click="arapDialogEdit('update',scope.row)">
                                     详情
                                 </el-button>
-                                <!--<el-button type="primary" size="mini" @click="arapDialogEdit('update',scope.row)">-->
-                                    <!--修改-->
-                                <!--</el-button>-->
                             </template>
                         </el-table-column>
                     </el-table>
@@ -95,7 +80,6 @@
                                    @current-change="pageChange" v-if="!pageLoading && pageData.totalCount>10">
                     </el-pagination>
                 </div>
-                <!-- </el-tab-pane> -->
             </el-tabs>
         </div>
         <postion-detail :arap-dialog="arapDialog" v-on:closeDialogBtn="closeDialog"
@@ -134,8 +118,8 @@
                     ],
                     isValidSelect: [
                         {id: '', value: '全部'},
-                        {id: 'True', value: '已使用'},
-                        {id: 'False', value: '未使用'}
+                        {id: 'True', value: '未使用'},
+                        {id: 'False', value: '已使用'},
                     ],
                     isMemberSelect: [
                         {id: '', value: '全部'},
@@ -179,7 +163,6 @@
                     this.getList();
                 }
             },
-            // 调账
             arapDialogEdit(type, row) {
                 this.arapDialog = {
                     isShow: true,
@@ -228,18 +211,10 @@
 
         },
 
-        // handleClick: function (tab, event) {
-        //     if (tab.name === 'meet') {
-        //         this.$router.push({path: "/supplierManage"});
-        //     }
-        // },
         pageChange: function () {
             setTimeout(() => {
                 this.getList();
             })
-        },
-        activated() {
-            this.activeName = 'payment'
         },
         created: function () {
             this.getList();
