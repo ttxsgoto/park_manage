@@ -77,7 +77,7 @@
                                     avatar: 'https://raw.githubusercontent.com/taylorchen709/markdown-images/master/vueadmin/user.png',
                                 };
                                 sessionStorage.setItem('user', JSON.stringify(user));
-                                this.$router.push({path: '/table'});
+                                this.$router.push({path: '/carpostion'});
                                 console.log('end----->')
 
                             }

@@ -8,7 +8,7 @@
                 <div class="tab-screen">
                     <el-form class="search-filters-form" label-width="80px" :model="searchFilters" status-icon>
                         <el-row :gutter="0">
-                        D    <el-col :span="12">
+                            <el-col :span="12">
                                 <el-input placeholder="请输入" v-model="searchFilters.keyword"
                                           @keyup.native.13="startSearch" class="search-filters-screen">
                                     <el-select v-model="searchFilters.field" slot="prepend" placeholder="请选择">
@@ -19,20 +19,7 @@
                                 </el-input>
                             </el-col>
                         </el-row>
-                        <el-row :gutter="10">
-                            <!--<el-col :span="8">-->
-                            <!--<el-form-item label="装车完成时间:" label-width="105px">-->
-                            <!--<el-date-picker v-model="planArriveTime" type="datetimerange" @change="startSearch" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" value-format="yyyy-MM-dd HH:mm:ss" :default-time="['00:00:00', '23:59:59']"></el-date-picker>-->
-                            <!--&lt;!&ndash; <el-date-picker v-model="planArriveTime" type="daterange" @change="startSearch" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" value-format="yyyy-MM-dd"></el-date-picker> &ndash;&gt;-->
-                            <!--</el-form-item>-->
-                            <!--</el-col>-->
-                            <!--<el-col :span="6">-->
-                            <!--<el-form-item label="运单状态:">-->
-                            <!--<el-select v-model="searchFilters.waybill_status" filterable @change="startSearch" placeholder="请选择">-->
-                            <!--<el-option v-for="(item,key) in selectData.waybillStatusSelect" :key="key" :label="item.value" :value="item.id"></el-option>-->
-                            <!--</el-select>-->
-                            <!--</el-form-item>-->
-                            <!--</el-col>-->
+                        <!-- <el-row :gutter="10">
                             <el-col :span="5">
                                 <el-form-item label="是否使用:">
                                     <el-select v-model="searchFilters.is_valid" @change="startSearch" placeholder="请选择">
@@ -50,13 +37,12 @@
                                     </el-select>
                                 </el-form-item>
                             </el-col>
-                        </el-row>
+                        </el-row> -->
                     </el-form>
                 </div>
                 <div class="operation-btn text-right" style="border:5px;text-align:right;float:right">
                     <!-- <el-button type="primary" plain @click="" >导入</el-button> -->
-                    <!--<el-button type="primary">导出</el-button>-->
-                    <!--<el-button type="primary" @click="arapDialogEdit('add')">新增</el-button>-->
+                    <el-button type="primary" @click="arapDialogEdit('add')">新增</el-button>
                 </div>
                 <div class="table-list">
                     <el-table :data="tableData" stripe style="width: 100%" size="mini" max-height="600"
@@ -66,6 +52,9 @@
                         </el-table-column>
                         <el-table-column label="操作" align="center">
                             <template scope="scope">
+                              <el-button type="primary" size="mini" @click="arapDialogEdit('update',scope.row)">
+                                  修改
+                              </el-button>
                                 <el-button type="primary" size="mini" @click="arapDialogEdit('update',scope.row)">
                                     详情
                                 </el-button>
@@ -82,17 +71,17 @@
                 </div>
             </el-tabs>
         </div>
-        <postion-detail :arap-dialog="arapDialog" v-on:closeDialogBtn="closeDialog"
-        :arap-row="arapRow"></postion-detail>
+        <member-add :arap-dialog="arapDialog" v-on:closeDialogBtn="closeDialog"
+        :arap-row="arapRow"></member-add>
     </div>
 </template>
 <script>
-    import PostionDetail from './carpostiondetailDialog';
+    import MemberAdd from './memberAddDialog';
 
     export default {
         name: 'carpostionList',
         components: {
-            PostionDetail: PostionDetail
+            MemberAdd: MemberAdd
         },
         computed: {},
         data() {
@@ -109,12 +98,13 @@
                     is_valid: this.$route.query.is_valid ? this.$route.query.is_valid : '',
                     is_member: this.$route.query.is_member ? this.$route.query.is_member : '',
                     keyword: '',
-                    field: 'plate_number',
+                    field: 'username',
                 },
                 payerTime: [], //付款时间
                 selectData: {
                     fieldSelect: [
-                        {id: 'plate_number', value: '车牌号'},
+                        {id: 'username', value: '会员姓名'},
+                        {id: 'plate_number', value: '车牌号'}
                     ],
                     isValidSelect: [
                         {id: '', value: '全部'},
@@ -128,26 +118,48 @@
                     ],
                 },
                 thTableList: [{
-                    title: '车位号',
-                    param: 'id',
+                    title: '会员姓名',
+                    param: 'username',
                     width: '100'
                 }, {
-                    title: '车牌号',
+                    title: '会员电话',
+                    param: 'phone',
+                    width: '200'
+                }, {
+                    title: '身份证',
+                    param: 'identity_card',
+                    width: '100'
+                }, {
+                    title: '车牌号码',
                     param: 'plate_number',
-                    width: '200'
-                }, {
-                    title: '可使用',
-                    param: 'is_valid_ch',
                     width: '100'
                 }, {
-                    title: '会员位',
-                    param: 'is_member_ch',
+                    title: '会员类型',
+                    param: 'member_type_ch',
+                    width: '100'
+                }, {
+                    title: '车辆类型',
+                    param: 'type_ch',
+                    width: '100'
+                }, {
+                    title: '颜色',
+                    param: 'color',
+                    width: '100'
+                }, {
+                    title: '车位号',
+                    param: 'postion_id',
+                    width: '100'
+                },  {
+                    title: '生效时间',
+                    param: 'created_time',
                     width: '200'
                 }, {
-                    title: '添加时间',
-                    param: 'created_time',
-                    width: ''
-                }],
+                    title: '到期时间',
+                    param: 'expire_time',
+                    width: '200'
+                },
+
+                ],
                 tableData: [],
                 arapDialog: {
                     isShow: false,
@@ -197,7 +209,7 @@
                 postData[this.searchPostData.field] = this.searchPostData.keyword;
                 postData = this.pbFunc.fifterObjIsNull(postData);
                 this.pageLoading = true;
-                this.$$http01('list_car_postions', postData).then((results) => {
+                this.$$http01('list_members', postData).then((results) => {
                     this.pageLoading = false;
                     if (results.data && results.data.code == 0) {
                         this.tableData = results.data.data.data;

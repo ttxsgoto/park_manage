@@ -18,6 +18,12 @@ const api01 = {
         method: 'get',
         desc: '车位列表',
         param: {}
+    },
+    list_members: {
+        url: '/park/members/',
+        method: 'get',
+        desc: '会员列表',
+        param: {}
     }
 };
 

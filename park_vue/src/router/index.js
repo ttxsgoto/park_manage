@@ -18,7 +18,7 @@ import echarts from '../views/charts/echarts.vue'
 import arap from '../views/arap/arap'
 import paymentManage from '../views/arap/supplierMeetManage/paymentManage'
 import carpostion from '../views/carpostion/carpostion'
-// import VueRouter from "../main";
+import members from '../views/members/memberlist'
 
 let routes = [
     {
@@ -113,7 +113,7 @@ let routes = [
         iconCls: 'fa fa-id-card-o',
         leaf: true,//只有一个节点
         children: [
-            {path: '/carpostion', component: carpostion, name: '会员管理',},
+            {path: '/members', component: members, name: '会员管理',},
         ]
     },
     {
