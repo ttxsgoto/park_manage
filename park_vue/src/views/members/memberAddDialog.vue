@@ -24,7 +24,7 @@
                     </el-form-item>
 
                     <el-form-item label="车位号:" prop="postion_id">
-                        <el-select v-model="formRules.postion_id" :loading="supplierLoading" filterable clearable
+                        <el-select v-model="formRules.postion_id" :loading="supplierLoading" clearable
                                    placeholder="请输入选择">
                             <el-option v-for="(item,key) in PostionListSelect" :key="key" :label="item.id"
                                        :value="item.id"></el-option>
@@ -99,9 +99,9 @@
                     {id: 'year', name: '包年'},
                 ],
                 CarTypeSelect: [
-                    {id: '1', name: '轿车'},
-                    {id: '2', name: 'SUV'},
-                    {id: '3', name: 'MPV'},
+                    {id: 1, name: '轿车'},
+                    {id: 2, name: 'SUV'},
+                    {id: 3, name: 'MPV'},
                     {id: 4, name: '跑车'},
                     {id: 5, name: '皮卡'},
                     {id: 6, name: '微面'},
@@ -112,9 +112,11 @@
                     ],
                     phone: [
                         {required: true, message: '请输入会员电话', trigger: 'blur'},
+                        { min: 11, max: 12, message: '必须为11位电话号码', trigger: 'blur' }
                     ],
                     identity_card: [
                         {required: true, message: '请输入18位身份证号码', trigger: 'blur'},
+                        { min: 18, max: 18, message: '必须为18位身份证号码', trigger: 'blur' }
                     ],
                     plate_number: [
                         {required: true, message: '请输入车牌号码', trigger: 'blur'}
@@ -123,10 +125,10 @@
                         {required: true, message: '请选择会员类型', trigger: 'blur'},
                     ],
                     postion_id: [
-                        {required: true, message: '请选择车位号', trigger: 'blur'},
+                        {type:  'number', required: true, message: '请选择车位号', trigger: 'blur'},
                     ],
                     type: [
-                        {required: true, message: '请选择车辆类型', trigger: 'blur'},
+                        {type: 'number', required: true, message: '请选择车辆类型', trigger: 'blur'},
                     ],
                 },
                 submitBtn: {
