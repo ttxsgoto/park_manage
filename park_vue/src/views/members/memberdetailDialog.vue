@@ -80,7 +80,7 @@
         },
         watch: {
             arapDialog(curVal, oldVal) {
-                if (curVal.type === 'update') {
+                if (curVal.type === 'detail') {
                     console.log('-------->', this.arapRow)
                     this.detailData.arapData = this.arapRow
                 } else {

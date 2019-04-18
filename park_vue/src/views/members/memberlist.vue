@@ -19,43 +19,34 @@
                                 </el-input>
                             </el-col>
                         </el-row>
-                        <!-- <el-row :gutter="10">
-                            <el-col :span="5">
-                                <el-form-item label="是否使用:">
-                                    <el-select v-model="searchFilters.is_valid" @change="startSearch" placeholder="请选择">
-                                        <el-option v-for="(item,key) in selectData.isValidSelect" :key="key"
-                                                   :label="item.value" :value="item.id"></el-option>
-                                    </el-select>
-                                </el-form-item>
-                            </el-col>
-                            <el-col :span="5">
-                                <el-form-item label="会员位:">
-                                    <el-select v-model="searchFilters.is_member" filterable @change="startSearch"
-                                               placeholder="请选择">
-                                        <el-option v-for="(item,key) in selectData.isMemberSelect" :key="key"
-                                                   :label="item.value" :value="item.id"></el-option>
-                                    </el-select>
-                                </el-form-item>
-                            </el-col>
-                        </el-row> -->
                     </el-form>
                 </div>
                 <div class="operation-btn text-right" style="border:5px;text-align:right;float:right">
-                    <!-- <el-button type="primary" plain @click="" >导入</el-button> -->
+                    <!--<el-button type="primary" plain @click="" >导入</el-button> -->
                     <el-button type="primary" @click="arapDialogEdit('add')">新增</el-button>
+                    <el-button type="primary" @click="arapDialogEdit('del')">删除</el-button>
                 </div>
                 <div class="table-list">
                     <el-table :data="tableData" stripe style="width: 100%" size="mini" max-height="600"
                               v-loading="pageLoading" :class="{'tabal-height-500':!tableData.length}">
+                        <!--<el-table-column label="" width="65">-->
+                        <!--单选操作-->
+                        <!--<template scope="scope">-->
+                        <!--<el-radio :label="scope.row.id" v-model="templateRadio" @change.native="getTemplateRow(scope.$index,scope.row)">&nbsp</el-radio>-->
+                        <!--</template>-->
+                        <!--</el-table-column>-->
                         <el-table-column v-for="(item,key) in thTableList" :key="key" :prop="item.param"
                                          align="center" :label="item.title" :width="item.width">
                         </el-table-column>
                         <el-table-column label="操作" align="center">
                             <template scope="scope">
-                              <el-button type="primary" size="mini" @click="arapDialogEdit('update',scope.row)">
-                                  修改
-                              </el-button>
                                 <el-button type="primary" size="mini" @click="arapDialogEdit('update',scope.row)">
+                                    修改
+                                </el-button>
+                                <!--<el-button type="primary" size="mini" @click="arapDialogEdit('delete',scope.row)">-->
+                                <!--删除-->
+                                <!--</el-button>-->
+                                <el-button type="primary" size="mini" @click="arapDialogEdit('detail',scope.row)">
                                     详情
                                 </el-button>
                             </template>
@@ -72,11 +63,11 @@
             </el-tabs>
         </div>
         <member-add :arap-dialog="arapDialog" v-on:closeDialogBtn="closeDialog"
-        :arap-row="arapRow"></member-add>
+                    :arap-row="arapRow"></member-add>
     </div>
 </template>
 <script>
-    import MemberAdd from './memberAddDialog';
+    import MemberAdd from './memberDialog';
 
     export default {
         name: 'carpostionList',
@@ -94,6 +85,7 @@
                 },
                 activeName: 'payment',
                 searchPostData: {}, //搜索参数
+                // templateSelection: {},
                 searchFilters: {
                     is_valid: this.$route.query.is_valid ? this.$route.query.is_valid : '',
                     is_member: this.$route.query.is_member ? this.$route.query.is_member : '',
@@ -149,7 +141,7 @@
                     title: '车位号',
                     param: 'postion_id',
                     width: '100'
-                },  {
+                }, {
                     title: '生效时间',
                     param: 'created_time',
                     width: '200'
@@ -185,6 +177,9 @@
                 }
 
             },
+            // getTemplateRow(index,row){                                 //获取选中数据
+            //     this.templateSelection = row;
+            // },
             startSearch() {
                 this.pageData.currentPage = 1;
                 this.searchPostData = this.pbFunc.deepcopy(this.searchFilters);

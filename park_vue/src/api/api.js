@@ -29,10 +29,13 @@ const api01 = {
         url: '/park/members/',
         method: 'post',
         desc: '新增会员',
-        param: {
-
-        }
-
+        param: {}
+    },
+    update_members: {
+        url: '/park/members/:id/',
+        method: 'put',
+        desc: '修改会员',
+        param: {}
     }
 };
 

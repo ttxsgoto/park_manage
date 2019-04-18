@@ -8,44 +8,45 @@
                 <el-form class="tms-dialog-content" label-width="110px" :rules="rules" :model="formRules" status-icon
                          ref="formRules">
                     <el-form-item label="会员姓名:" prop="username">
-                        <el-input placeholder="请输入" v-model="formRules.username"></el-input>
+                        <el-input placeholder="请输入" :disabled="isDisabled" v-model="formRules.username"></el-input>
                     </el-form-item>
 
                     <el-form-item label="会员电话:" prop="phone">
-                        <el-input placeholder="请输入" v-model="formRules.phone"></el-input>
+                        <el-input placeholder="请输入" :disabled="isDisabled" v-model="formRules.phone"></el-input>
                     </el-form-item>
 
                     <el-form-item label="身份证号码:" prop="identity_card">
-                        <el-input placeholder="请输入" v-model="formRules.identity_card"></el-input>
+                        <el-input placeholder="请输入" :disabled="isDisabled" v-model="formRules.identity_card"></el-input>
                     </el-form-item>
 
                     <el-form-item label="车牌号码:" prop="plate_number">
-                        <el-input placeholder="请输入" v-model="formRules.plate_number"></el-input>
+                        <el-input placeholder="请输入" :disabled="isDisabled" v-model="formRules.plate_number"></el-input>
                     </el-form-item>
 
                     <el-form-item label="车位号:" prop="postion_id">
                         <el-select v-model="formRules.postion_id" :loading="supplierLoading" clearable
-                                   placeholder="请输入选择">
+                                   placeholder="请输入选择" :disabled="isDisabled || isUpdate">
                             <el-option v-for="(item,key) in PostionListSelect" :key="key" :label="item.id"
                                        :value="item.id"></el-option>
                         </el-select>
                     </el-form-item>
 
                     <el-form-item label="会员类型:" prop="member_type">
-                        <el-select v-model="formRules.member_type" filterable placeholder="请输入选择">
+                        <el-select v-model="formRules.member_type" filterable placeholder="请输入选择"
+                                   :disabled="isDisabled">
                             <el-option v-for="item in MemberTypeSelect" :key="item.id" :label="item.name"
                                        :value="item.id"></el-option>
                         </el-select>
                     </el-form-item>
 
                     <el-form-item label="车辆类型:" prop="type">
-                        <el-select v-model="formRules.type" placeholder="请输入选择">
+                        <el-select v-model="formRules.type" placeholder="请输入选择" :disabled="isDisabled">
                             <el-option v-for="item in CarTypeSelect" :key="item.id" :label="item.name"
                                        :value="item.id"></el-option>
                         </el-select>
                     </el-form-item>
                     <el-form-item label="车辆颜色:" prop="color">
-                        <el-input placeholder="请输入车辆颜色" v-model="formRules.color"></el-input>
+                        <el-input placeholder="请输入车辆颜色" :disabled="isDisabled" v-model="formRules.color"></el-input>
                     </el-form-item>
 
 
@@ -62,7 +63,9 @@
             </div>
             <span slot="footer" class="dialog-footer">
         <el-button @click="closeBtn">取消</el-button>
+                <span v-show="!isDetail">
         <el-button type="primary" @click="adjustBtn" :loading="submitBtn.isLoading" :disabled="submitBtn.isDisabled">{{submitBtn.btnText}}</el-button>
+                </span>
       </span>
         </el-dialog>
     </div>
@@ -94,6 +97,9 @@
                     type: '',
                     color: ''
                 },
+                isDisabled: false,
+                isDetail: false,
+                isUpdate: false,
                 MemberTypeSelect: [
                     {id: 'quarter', name: '包季'},
                     {id: 'year', name: '包年'},
@@ -112,11 +118,11 @@
                     ],
                     phone: [
                         {required: true, message: '请输入会员电话', trigger: 'blur'},
-                        { min: 11, max: 12, message: '必须为11位电话号码', trigger: 'blur' }
+                        {min: 11, max: 12, message: '必须为11位电话号码', trigger: 'blur'}
                     ],
                     identity_card: [
                         {required: true, message: '请输入18位身份证号码', trigger: 'blur'},
-                        { min: 18, max: 18, message: '必须为18位身份证号码', trigger: 'blur' }
+                        {min: 18, max: 18, message: '必须为18位身份证号码', trigger: 'blur'}
                     ],
                     plate_number: [
                         {required: true, message: '请输入车牌号码', trigger: 'blur'}
@@ -125,7 +131,7 @@
                         {required: true, message: '请选择会员类型', trigger: 'blur'},
                     ],
                     postion_id: [
-                        {type:  'number', required: true, message: '请选择车位号', trigger: 'blur'},
+                        {type: 'number', required: true, message: '请选择车位号', trigger: 'blur'},
                     ],
                     type: [
                         {type: 'number', required: true, message: '请选择车辆类型', trigger: 'blur'},
@@ -180,8 +186,15 @@
                         let apiName = 'add_members';
                         if (this.arapDialog.type === 'update') {
                             postData.id = this.arapRow.id;
-                            apiName = 'updateSupplierPayment';
-                        } else {
+                            apiName = 'update_members';
+                        } else if (this.arapDialog.type == 'detail') {
+                            this.submitBtn = {
+                                btnText: '保存',
+                                isDisabled: false,
+                                isLoading: false
+                            }
+                        }
+                        else {
                             apiName = 'add_members';
                         }
                         this.$$http01(apiName, postData).then((results) => {
@@ -196,6 +209,8 @@
                                     type: 'success'
                                 });
                                 this.$emit('closeDialogBtn', true);
+                            } else {
+                                this.$message.error(results.data.msg);
                             }
 
                         }).catch((err) => {
@@ -215,21 +230,36 @@
         },
         watch: {
             arapDialog(curVal, oldVal) {
-                this.formRules = {
-                    supplier: '', //供应商
-                    payment_datetime: '', //付款日期
-                    amount: '', //付款金额
-                    desc: '', //调账备注
-                };
-                if (curVal.type === 'update') {
-                    this.formRules = {
-                        supplier: this.arapRow.supplier, //供应商
-                        payment_datetime: this.arapRow.payment_datetime, //付款日期
-                        amount: this.arapRow.amount, //付款金额
-                        desc: this.arapRow.desc, //调账备注
-                    };
+                // this.formRules = {
+                //     supplier: '', //供应商
+                //     payment_datetime: '', //付款日期
+                //     amount: '', //付款金额
+                //     desc: '', //调账备注
+                // };
+                if (curVal.type === 'detail') {
+                    // this.formRules = {
+                    //     supplier: this.arapRow.supplier, //供应商
+                    //     payment_datetime: this.arapRow.payment_datetime, //付款日期
+                    //     amount: this.arapRow.amount, //付款金额
+                    //     desc: this.arapRow.desc, //调账备注
+                    // };
+                    this.isDisabled = true;
+                    this.isDetail = true;
+                    this.formRules = this.arapRow;
+                    this.title = '会员信息';
+                }
+                else if (curVal.type == 'update') {
+                    this.isDisabled = false;
+                    this.isDetail = false;
+                    this.isUpdate = true;
+                    this.formRules = this.arapRow;
                     this.title = '修改会员信息';
-                } else {
+                }
+                else {
+                    this.isDisabled = false;
+                    this.isDetail = false;
+                    this.isUpdate = false;
+                    this.formRules = {};
                     this.title = '新增会员信息';
                 }
                 if (this.$refs['formRules']) {
