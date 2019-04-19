@@ -24,17 +24,24 @@
                 <div class="operation-btn text-right" style="border:5px;text-align:right;float:right">
                     <!--<el-button type="primary" plain @click="" >导入</el-button> -->
                     <el-button type="primary" @click="arapDialogEdit('add')">新增</el-button>
-                    <el-button type="primary" @click="arapDialogEdit('del')">删除</el-button>
+                    <!--<el-button type="primary" @click="arapDialogEdit('del')">删除</el-button>-->
+                    <el-button type="danger" @click="handleDel(multiSelectString)">删除</el-button>
                 </div>
                 <div class="table-list">
                     <el-table :data="tableData" stripe style="width: 100%" size="mini" max-height="600"
-                              v-loading="pageLoading" :class="{'tabal-height-500':!tableData.length}">
+                              v-loading="pageLoading" :class="{'tabal-height-500':!tableData.length}"
+                              @selection-change="handleSelectionChange"
+                    >
                         <!--<el-table-column label="" width="65">-->
                         <!--单选操作-->
                         <!--<template scope="scope">-->
                         <!--<el-radio :label="scope.row.id" v-model="templateRadio" @change.native="getTemplateRow(scope.$index,scope.row)">&nbsp</el-radio>-->
                         <!--</template>-->
                         <!--</el-table-column>-->
+                        <el-table-column
+                                type="selection"
+                                width="55">
+                        </el-table-column>
                         <el-table-column v-for="(item,key) in thTableList" :key="key" :prop="item.param"
                                          align="center" :label="item.title" :width="item.width">
                         </el-table-column>
@@ -86,6 +93,8 @@
                 activeName: 'payment',
                 searchPostData: {}, //搜索参数
                 // templateSelection: {},
+                multipleSelection: [],
+                multiSelectString: '',
                 searchFilters: {
                     is_valid: this.$route.query.is_valid ? this.$route.query.is_valid : '',
                     is_member: this.$route.query.is_member ? this.$route.query.is_member : '',
@@ -167,6 +176,54 @@
                     this.getList();
                 }
             },
+            handleSelectionChange(val) {
+
+                this.multipleSelection = val;
+                if (val.length > 0) {
+                    this.calculation();
+                }
+            },
+            calculation() {
+                let SelectList = [];
+                this.multipleSelection.forEach(item => {
+                    SelectList.push(item.id)
+                });
+
+                this.multiSelectString = SelectList.toLocaleString()
+            },
+            //删除
+            handleDel(id) {
+                if (this.multipleSelection == '') {
+                    this.$alert('请选择需要删除的列', '提示', {
+                        confirmButtonText: '确定',
+                    })
+                } else if (this.multipleSelection.length > 1) {
+                    this.$alert('每次只能删除一个会员', '提示', {
+                        confirmButtonText: '确定',
+                    })
+                } else {
+                    this.$confirm('确认删除该记录吗?', '提示', {
+                        type: 'warning'
+                    }).then(() => {
+                        this.$$http01('del_members', {id: id}).then((results) => {
+                            if (results.data && results.data.code == 0) {
+                                this.$message({
+                                    message: '删除会员成功',
+                                    type: 'success'
+                                });
+                                this.getList();
+                            }
+                        }).catch((err) => {
+                            this.$message.error({
+                                type: 'info',
+                                mesage: '删除职位失败'
+                            });
+                        });
+
+                    })
+
+                }
+            },
             arapDialogEdit(type, row) {
                 this.arapDialog = {
                     isShow: true,
@@ -176,7 +233,8 @@
                     this.arapRow = row;
                 }
 
-            },
+            }
+            ,
             // getTemplateRow(index,row){                                 //获取选中数据
             //     this.templateSelection = row;
             // },
@@ -187,12 +245,14 @@
                 if (this.pbFunc.objSize(this.$route.query)) {
                     this.$router.push({path: this.$route.path})
                 }
-            },
+            }
+            ,
             pageChange() {
                 setTimeout(() => {
                     this.getList();
                 })
-            },
+            }
+            ,
             getList: function () {
                 let postData = {
                     page: this.pageData.currentPage,
@@ -214,15 +274,18 @@
                     this.pageLoading = false;
                 })
 
-            },
+            }
+            ,
 
-        },
+        }
+        ,
 
         pageChange: function () {
             setTimeout(() => {
                 this.getList();
             })
-        },
+        }
+        ,
         created: function () {
             this.getList();
         }

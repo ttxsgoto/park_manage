@@ -193,8 +193,7 @@
                                 isDisabled: false,
                                 isLoading: false
                             }
-                        }
-                        else {
+                        } else {
                             apiName = 'add_members';
                         }
                         this.$$http01(apiName, postData).then((results) => {
@@ -209,11 +208,15 @@
                                     type: 'success'
                                 });
                                 this.$emit('closeDialogBtn', true);
+                            }
+                            if (results.data.code == -1) {
+                                this.$alert(results.data.msg)
                             } else {
-                                this.$message.error(results.data.msg);
+                                reject(results);
                             }
 
                         }).catch((err) => {
+                            console.log('0--------->', err)
                             this.submitBtn = {
                                 btnText: '保存',
                                 isDisabled: false,
@@ -247,15 +250,13 @@
                     this.isDetail = true;
                     this.formRules = this.arapRow;
                     this.title = '会员信息';
-                }
-                else if (curVal.type == 'update') {
+                } else if (curVal.type == 'update') {
                     this.isDisabled = false;
                     this.isDetail = false;
                     this.isUpdate = true;
                     this.formRules = this.arapRow;
                     this.title = '修改会员信息';
-                }
-                else {
+                } else {
                     this.isDisabled = false;
                     this.isDetail = false;
                     this.isUpdate = false;

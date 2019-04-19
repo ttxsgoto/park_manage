@@ -36,6 +36,17 @@ const api01 = {
         method: 'put',
         desc: '修改会员',
         param: {}
+    },
+    del_members: {
+        url: '/park/members/:id/',
+        method: 'delete',
+        desc: '删除会员',
+        param: {
+            id: {
+                desc: '会员ID'
+            }
+        }
+
     }
 };
 
