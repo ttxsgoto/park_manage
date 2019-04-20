@@ -84,7 +84,6 @@
                 required: true
             },
         },
-
         data: function () {
             return {
                 formRules: {
@@ -216,7 +215,6 @@
                             }
 
                         }).catch((err) => {
-                            console.log('0--------->', err)
                             this.submitBtn = {
                                 btnText: '保存',
                                 isDisabled: false,

@@ -8,6 +8,15 @@ from dateutil.relativedelta import relativedelta
 from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer
 from apps.park.models import Member, CarPostion, MemberAmount, TempAmount
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
+
+
+class UserSerializer(ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id', 'username', ]
 
 
 class MemberListSerializer(ModelSerializer):
@@ -31,7 +40,6 @@ class MemberSerializer(ModelSerializer):
 
     class Meta:
         model = Member
-        # fields = '__all__'
         exclude = ('expire_time', 'creator')
 
     def validate(self, attrs):
@@ -107,13 +115,13 @@ class TempAmountListSerializer(ModelSerializer):
     def to_representation(self, instance):
         data = super(TempAmountListSerializer, self).to_representation(instance)
         data['creator_name'] = instance.creator.username
+        data['is_member_ch'] = '是' if instance.is_member else '否'
         return data
 
 
 class TempAmountSerializer(ModelSerializer):
     class Meta:
         model = TempAmount
-        # fields = '__all__'
         exclude = ('creator', 'is_member', 'postion')
 
         read_only_fields = ('leave_time',)

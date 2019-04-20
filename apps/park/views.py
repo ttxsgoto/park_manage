@@ -6,16 +6,34 @@ import math
 
 from datetime import datetime
 
+from django.db.models import Sum
 from rest_framework import decorators
 from rest_framework.response import Response
-from apps.park.filters import CarPostionFilter, MemberFilter, TempAmountFilter
+from apps.park.filters import CarPostionFilter, MemberFilter, TempAmountFilter, MemberAmountFilter
 from apps.park.models import Member, CarPostion, MemberAmount, TempAmount
 from apps.park.serializers import MemberSerializer, CarPostionSerializer, MemberListSerializer, MemberAmountSerializer, \
-    TempAmountSerializer, TempAmountListSerializer
+    TempAmountSerializer, TempAmountListSerializer, UserSerializer
 from core.mixins import ModelViewSet, ListModelMixin, APIGenericViewSet, CreateModelMixin, UpdateModelMixin, \
     RetrieveModelMixin
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 logger = logging.getLogger(__name__)
+
+
+class UserViewSet(ListModelMixin, APIGenericViewSet):
+    queryset = User.objects.filter(is_active=True)
+    serializer_class = UserSerializer
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())
+        serializer = self.get_serializer(queryset, many=True)
+        return Response({
+            'code': 0,
+            'msg': '获取成功',
+            'data': serializer.data
+        })
 
 
 class MemberViewSet(ModelViewSet):
@@ -83,6 +101,67 @@ class MemberAmountViewSet(ListModelMixin, APIGenericViewSet):
     """会员金额"""
     queryset = MemberAmount.objects.all()
     serializer_class = MemberAmountSerializer
+    filter_class = MemberAmountFilter
+
+    def list(self, request, *args, **kwargs):
+        amount_data = super(MemberAmountViewSet, self).list(request, *args, **kwargs)
+        created_time_start = request.GET.get('created_time_start', None)
+        created_time_end = request.GET.get('created_time_end', None)
+        plate_number = request.GET.get('plate_number', None)
+        creator = request.GET.get('creator', None)
+        if created_time_start and created_time_end and creator and plate_number:
+            member_queryset = MemberAmount.objects.filter(created_time__gte=created_time_start,
+                                                          created_time__lte=created_time_end,
+                                                          member__creator_id=creator,
+                                                          member__carpostion__plate_number__contains=plate_number,
+                                                          )
+            temp_queryset = TempAmount.objects.filter(created_time__gte=created_time_start,
+                                                      created_time__lte=created_time_end,
+                                                      creator_id=creator,
+                                                      plate_number__contains=plate_number
+                                                      )
+        elif created_time_start and created_time_end and creator:
+            member_queryset = MemberAmount.objects.filter(created_time__gte=created_time_start,
+                                                          created_time__lte=created_time_end,
+                                                          member__creator_id=creator
+                                                          )
+            temp_queryset = TempAmount.objects.filter(created_time__gte=created_time_start,
+                                                      created_time__lte=created_time_end,
+                                                      creator_id=creator
+                                                      )
+        elif created_time_start and created_time_end and plate_number:
+            member_queryset = MemberAmount.objects.filter(created_time__gte=created_time_start,
+                                                          created_time__lte=created_time_end,
+                                                          member__carpostion__plate_number__contains=plate_number
+                                                          )
+            temp_queryset = TempAmount.objects.filter(created_time__gte=created_time_start,
+                                                      created_time__lte=created_time_end,
+                                                      plate_number__contains=plate_number
+                                                      )
+        elif created_time_start and created_time_end:
+            member_queryset = MemberAmount.objects.filter(created_time__gte=created_time_start,
+                                                          created_time__lte=created_time_end,
+                                                          )
+            temp_queryset = TempAmount.objects.filter(created_time__gte=created_time_start,
+                                                      created_time__lte=created_time_end,
+                                                      )
+        else:
+            member_queryset = MemberAmount.objects.all()
+            temp_queryset = TempAmount.objects.all()
+
+        member_sum = member_queryset.aggregate((Sum('money')))
+        temp_sum = temp_queryset.aggregate(Sum('money'))
+        _member_sum = member_sum.get('money__sum') if member_sum.get(
+            'money__sum') else 0
+        _temp_sum = temp_sum.get('money__sum') if temp_sum.get(
+            'money__sum') else 0
+        all_sum = _member_sum + _temp_sum
+        return Response({
+            'code': 0,
+            'msg': '获取成功',
+            'data': amount_data.data['data'],
+            'all_sum': all_sum
+        })
 
 
 class TempAmountViewSet(ListModelMixin, RetrieveModelMixin, CreateModelMixin, APIGenericViewSet):
@@ -142,6 +221,8 @@ class TempAmountViewSet(ListModelMixin, RetrieveModelMixin, CreateModelMixin, AP
                         'amount': 0
                     })
                 else:
+                    tempamount.money = 2 * hour
+                    tempamount.save()
                     return Response({
                         'code': 0,
                         'is_member': False,

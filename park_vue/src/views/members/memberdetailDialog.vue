@@ -81,15 +81,10 @@
         watch: {
             arapDialog(curVal, oldVal) {
                 if (curVal.type === 'detail') {
-                    console.log('-------->', this.arapRow)
                     this.detailData.arapData = this.arapRow
                 } else {
                     this.title = '新增打款事项';
                 }
-                // if (this.$refs['formRules']) {
-                //     this.$refs['formRules'].clearValidate();
-                // }
-
             },
         },
         created: function () {

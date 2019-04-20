@@ -46,7 +46,36 @@ const api01 = {
                 desc: '会员ID'
             }
         }
-
+    },
+    list_member_amount: {
+        url: '/park/member_amount/',
+        method: 'get',
+        desc: '会员金额',
+        param: {}
+    },
+    list_temp_amount: {
+        url: '/park/temp_amount/',
+        method: 'get',
+        desc: '停车费用',
+        param: {}
+    },
+    list_users: {
+        url: '/park/user/',
+        method: 'get',
+        desc: '用户列表',
+        param: {}
+    },
+    come_in_park: {
+        url: '/park/temp_amount/',
+        method: 'post',
+        desc: '进入停车场',
+        param: {}
+    },
+    come_out_park: {
+        url: '/park/temp_amount/leave/',
+        method: 'post',
+        desc: '离开停车收费',
+        param: {}
     }
 };
 

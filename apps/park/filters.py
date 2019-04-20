@@ -3,7 +3,7 @@
 from __future__ import unicode_literals
 
 import django_filters
-from apps.park.models import CarPostion, Member, TempAmount
+from apps.park.models import CarPostion, Member, TempAmount, MemberAmount
 
 
 class CarPostionFilter(django_filters.FilterSet):
@@ -20,7 +20,18 @@ class TempAmountFilter(django_filters.FilterSet):
 
     class Meta:
         model = TempAmount
-        fields = ['plate_number', 'created_time_start', 'created_time_end']
+        fields = ['plate_number', 'created_time_start', 'created_time_end', 'creator']
+
+
+class MemberAmountFilter(django_filters.FilterSet):
+    created_time_start = django_filters.DateTimeFilter(name='created_time', lookup_expr='gte')
+    created_time_end = django_filters.DateTimeFilter(name='created_time', lookup_expr='lte')
+    plate_number = django_filters.CharFilter(name='member__plate_number', lookup_expr='icontains')
+    creator = django_filters.CharFilter(name='member__creator')
+
+    class Meta:
+        model = MemberAmount
+        fields = ['plate_number', 'created_time_start', 'created_time_end', 'creator']
 
 
 class MemberFilter(django_filters.FilterSet):

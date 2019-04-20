@@ -171,7 +171,6 @@
                 if (row) {
                     this.arapRow = row;
                 }
-
             },
             startSearch() {
                 this.pageData.currentPage = 1;
@@ -206,11 +205,8 @@
                 }).catch((err) => {
                     this.pageLoading = false;
                 })
-
             },
-
         },
-
         pageChange: function () {
             setTimeout(() => {
                 this.getList();
@@ -220,5 +216,4 @@
             this.getList();
         }
     }
-
 </script>

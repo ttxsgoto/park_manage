@@ -2,10 +2,11 @@
 # coding: utf-8
 from __future__ import unicode_literals
 from rest_framework import routers
-from .views import MemberViewSet, CarPostionViewSet, MemberAmountViewSet, TempAmountViewSet
+from .views import MemberViewSet, CarPostionViewSet, MemberAmountViewSet, TempAmountViewSet, UserViewSet
 
 park_router = routers.DefaultRouter()
 park_router.register(r'members', MemberViewSet, 'members')
+park_router.register(r'user', UserViewSet, 'user')
 park_router.register(r'car_postions', CarPostionViewSet, 'car_postions')
 park_router.register(r'member_amount', MemberAmountViewSet, 'member_amount')
 park_router.register(r'temp_amount', TempAmountViewSet, 'temp_amount')

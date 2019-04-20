@@ -158,9 +158,7 @@
                     title: '到期时间',
                     param: 'expire_time',
                     width: '200'
-                },
-
-                ],
+                }],
                 tableData: [],
                 arapDialog: {
                     isShow: false,
@@ -177,7 +175,6 @@
                 }
             },
             handleSelectionChange(val) {
-
                 this.multipleSelection = val;
                 if (val.length > 0) {
                     this.calculation();
@@ -219,9 +216,7 @@
                                 mesage: '删除职位失败'
                             });
                         });
-
                     })
-
                 }
             },
             arapDialogEdit(type, row) {
@@ -232,9 +227,7 @@
                 if (row) {
                     this.arapRow = row;
                 }
-
-            }
-            ,
+            },
             // getTemplateRow(index,row){                                 //获取选中数据
             //     this.templateSelection = row;
             // },
@@ -245,14 +238,12 @@
                 if (this.pbFunc.objSize(this.$route.query)) {
                     this.$router.push({path: this.$route.path})
                 }
-            }
-            ,
+            },
             pageChange() {
                 setTimeout(() => {
                     this.getList();
                 })
-            }
-            ,
+            },
             getList: function () {
                 let postData = {
                     page: this.pageData.currentPage,
@@ -273,22 +264,15 @@
                 }).catch((err) => {
                     this.pageLoading = false;
                 })
-
-            }
-            ,
-
-        }
-        ,
-
+            },
+        },
         pageChange: function () {
             setTimeout(() => {
                 this.getList();
             })
-        }
-        ,
+        },
         created: function () {
             this.getList();
         }
     }
-
 </script>

@@ -63,7 +63,7 @@ class LoginView(JSONWebTokenAPIView):
             })
 
         return Response({
-            'code': -1,
+            'code': 402,
             'msg': serializer.errors,
             'status': status.HTTP_400_BAD_REQUEST})
 
