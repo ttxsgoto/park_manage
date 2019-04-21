@@ -25,6 +25,9 @@
                     <el-form-item label="会员电话:" prop="detailData.arapData.member">
                         <el-input placeholder="无" :disabled="isDisabled" v-model="detailData.arapData.member.phone" ></el-input>
                     </el-form-item>
+                    <el-form-item label="起始时间:" prop="detailData.arapData.member">
+                        <el-input placeholder="无" :disabled="isDisabled" v-model="detailData.arapData.member.created_time" ></el-input>
+                    </el-form-item>
                     <el-form-item label="到期时间:" prop="detailData.arapData.member">
                         <el-input placeholder="无" :disabled="isDisabled" v-model="detailData.arapData.member.expire_time" ></el-input>
                     </el-form-item>

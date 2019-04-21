@@ -186,6 +186,13 @@ class TempAmountViewSet(ListModelMixin, RetrieveModelMixin, CreateModelMixin, AP
         if tempamount:
             now_time = datetime.now()
             diff_time = now_time - tempamount.enter_time
+            days = diff_time.days
+            if days != 0:
+                day_time = days * 24
+                days_amout = days * 24 * 2
+            else:
+                day_time = 0
+                days_amout = 0
             diff_hour = diff_time.seconds / 60 / 60
             hour_num = math.modf(diff_hour)
             int_num = hour_num[1]
@@ -196,7 +203,7 @@ class TempAmountViewSet(ListModelMixin, RetrieveModelMixin, CreateModelMixin, AP
                                            )
             is_member = True if member.exists() else False
             tempamount.leave_time = now_time
-            tempamount.time_duration = hour
+            tempamount.time_duration = hour + day_time
             tempamount.save()
             if is_member:
                 return Response({
@@ -205,8 +212,6 @@ class TempAmountViewSet(ListModelMixin, RetrieveModelMixin, CreateModelMixin, AP
                     'amount': 0
                 })
             else:
-                # diff_time = now_time - tempamount.enter_time
-                # 停车位释放掉， 可被其他车辆使用
                 postion = tempamount.postion
                 if postion:
                     postion.is_valid = True
@@ -221,13 +226,13 @@ class TempAmountViewSet(ListModelMixin, RetrieveModelMixin, CreateModelMixin, AP
                         'amount': 0
                     })
                 else:
-                    tempamount.money = 2 * hour
+                    tempamount.money = 2 * hour + days_amout
                     tempamount.save()
                     return Response({
                         'code': 0,
                         'is_member': False,
                         'msg': '停车时间大于30分钟',
-                        'amount': 2 * hour
+                        'amount': 2 * hour + days_amout
                     })
         return Response({
             'code': -1,

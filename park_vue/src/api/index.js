@@ -3,7 +3,6 @@ import axios from 'axios';
 import {getLocalData} from '../assets/js/cache';
 import api01 from './api';
 import router from '../router'
-// let domainUrl = 'http://api.hhtdlng.com/bpm';
 let domainUrl = 'http://127.0.0.1:8080';
 import {Message} from 'element-ui';
 /* 接口超时时长设置 */
