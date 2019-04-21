@@ -20,19 +20,6 @@
                             </el-col>
                         </el-row>
                         <el-row :gutter="10">
-                            <!--<el-col :span="8">-->
-                            <!--<el-form-item label="装车完成时间:" label-width="105px">-->
-                            <!--<el-date-picker v-model="planArriveTime" type="datetimerange" @change="startSearch" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" value-format="yyyy-MM-dd HH:mm:ss" :default-time="['00:00:00', '23:59:59']"></el-date-picker>-->
-                            <!--&lt;!&ndash; <el-date-picker v-model="planArriveTime" type="daterange" @change="startSearch" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" value-format="yyyy-MM-dd"></el-date-picker> &ndash;&gt;-->
-                            <!--</el-form-item>-->
-                            <!--</el-col>-->
-                            <!--<el-col :span="6">-->
-                            <!--<el-form-item label="运单状态:">-->
-                            <!--<el-select v-model="searchFilters.waybill_status" filterable @change="startSearch" placeholder="请选择">-->
-                            <!--<el-option v-for="(item,key) in selectData.waybillStatusSelect" :key="key" :label="item.value" :value="item.id"></el-option>-->
-                            <!--</el-select>-->
-                            <!--</el-form-item>-->
-                            <!--</el-col>-->
                             <el-col :span="5">
                                 <el-form-item label="是否使用:">
                                     <el-select v-model="searchFilters.is_valid" @change="startSearch" placeholder="请选择">
@@ -54,9 +41,6 @@
                     </el-form>
                 </div>
                 <div class="operation-btn text-right" style="border:5px;text-align:right;float:right">
-                    <!-- <el-button type="primary" plain @click="" >导入</el-button> -->
-                    <!--<el-button type="primary">导出</el-button>-->
-                    <!--<el-button type="primary" @click="arapDialogEdit('add')">新增</el-button>-->
                 </div>
                 <div class="table-list">
                     <el-table :data="tableData" stripe style="width: 100%" size="mini" max-height="600"

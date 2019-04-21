@@ -48,17 +48,6 @@
                     <el-form-item label="车辆颜色:" prop="color">
                         <el-input placeholder="请输入车辆颜色" :disabled="isDisabled" v-model="formRules.color"></el-input>
                     </el-form-item>
-
-
-                    <!--<el-form-item label="付款日期:" prop="payment_datetime">-->
-                    <!--<el-date-picker v-model="formRules.payment_datetime" :picker-options="pickerOptionsDate" type="date" placeholder="选择日期" value-format="yyyy-MM-dd hh:mm:ss"></el-date-picker>-->
-                    <!--</el-form-item>-->
-                    <!--<el-form-item label="付款金额:" prop="amount">-->
-                    <!--<el-input placeholder="请输入" v-model="formRules.amount"></el-input>-->
-                    <!--</el-form-item>-->
-                    <!--<el-form-item label="备注:" prop="desc">-->
-                    <!--<el-input placeholder="请输入" type="textarea" resize="none" :rows="3" v-model="formRules.desc"></el-input>-->
-                    <!--</el-form-item>-->
                 </el-form>
             </div>
             <span slot="footer" class="dialog-footer">
@@ -148,7 +137,6 @@
                     unit_price: '' //单价
                 },
                 title: '新增会员'
-
             }
         },
         computed: {},
@@ -172,7 +160,6 @@
                     this.supplierLoading = false;
                 })
             },
-
             adjustBtn: function () {
                 this.$refs['formRules'].validate((valid) => {
                     if (valid) {
@@ -180,7 +167,7 @@
                             btnText: '保存中',
                             isDisabled: true,
                             isLoading: true
-                        }
+                        };
                         let postData = this.formRules;
                         let apiName = 'add_members';
                         if (this.arapDialog.type === 'update') {
@@ -213,16 +200,13 @@
                             } else {
                                 reject(results);
                             }
-
                         }).catch((err) => {
                             this.submitBtn = {
                                 btnText: '保存',
                                 isDisabled: false,
                                 isLoading: false
                             }
-                            this.$message.error(this.arapDialog.type === 'add' ? '新增失败' : '修改失败');
                         })
-
                     } else {
                         this.submitBtn.isDisabled = false;
                     }
@@ -231,19 +215,7 @@
         },
         watch: {
             arapDialog(curVal, oldVal) {
-                // this.formRules = {
-                //     supplier: '', //供应商
-                //     payment_datetime: '', //付款日期
-                //     amount: '', //付款金额
-                //     desc: '', //调账备注
-                // };
                 if (curVal.type === 'detail') {
-                    // this.formRules = {
-                    //     supplier: this.arapRow.supplier, //供应商
-                    //     payment_datetime: this.arapRow.payment_datetime, //付款日期
-                    //     amount: this.arapRow.amount, //付款金额
-                    //     desc: this.arapRow.desc, //调账备注
-                    // };
                     this.isDisabled = true;
                     this.isDetail = true;
                     this.formRules = this.arapRow;
@@ -264,7 +236,6 @@
                 if (this.$refs['formRules']) {
                     this.$refs['formRules'].clearValidate();
                 }
-
             },
         },
         created: function () {
@@ -272,5 +243,4 @@
             this.getSupplier();
         }
     }
-
 </script>

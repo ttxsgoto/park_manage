@@ -62,7 +62,6 @@
                     unit_price: '' //单价
                 },
                 title: '进入车辆车牌号码'
-
             }
         },
         computed: {},
@@ -77,7 +76,7 @@
                             btnText: '保存中',
                             isDisabled: true,
                             isLoading: true
-                        }
+                        };
                         let postData = this.formRules;
                         let apiName = 'come_in_park';
                         if (this.arapDialog.type === 'add') {
@@ -90,7 +89,7 @@
                                 btnText: '保存',
                                 isDisabled: false,
                                 isLoading: false
-                            }
+                            };
                             if (results.data && results.data.code == 0) {
                                 this.amount = results.data.amount;
                                 // this.is_member =
@@ -120,9 +119,7 @@
                                 isDisabled: false,
                                 isLoading: false
                             }
-                            // this.$message.error(this.arapDialog.type === 'add' ? '新增失败' : '离开失败');
                         })
-
                     } else {
                         this.submitBtn.isDisabled = false;
                     }
@@ -150,8 +147,6 @@
         },
         created: function () {
             this.pbFunc.format();
-            // this.getSupplier();
         }
     }
-
 </script>

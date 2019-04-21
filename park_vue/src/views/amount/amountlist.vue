@@ -38,8 +38,6 @@
                                 </el-form-item>
                             </el-col>
                         </el-row>
-
-
                     </el-form>
                 </div>
                 <div class="operation-btn text-right" style="border:5px;text-align:right;float:right">
@@ -107,17 +105,13 @@
                 },
                 activeName: 'payment',
                 searchPostData: {}, //搜索参数
-                // templateSelection: {},
                 multipleSelection: [],
                 all_sum: 0.00, // 总金额
                 CreatedTime: ['2019-01-01 00:00:00', '2019-12-30 23:59:00'], // 费用时间
                 multiSelectString: '',
                 searchFilters: {
                     plan_arrive_time: [],
-
                     creator: this.$route.query.creator ? this.$route.query.creator : '',
-                    // is_valid: this.$route.query.is_valid ? this.$route.query.is_valid : '',
-                    // is_member: this.$route.query.is_member ? this.$route.query.is_member : '',
                     keyword: '',
                     field: 'plate_number',
                 },
@@ -162,23 +156,11 @@
                     title: '费用时间',
                     param: 'created_time',
                     width: '200'
-                },
-                    // {
-                    //     title: '生效时间',
-                    //     param: 'member.created_time',
-                    //     width: '200'
-                    // },
-                    // {
-                    //     title: '到期时间',
-                    //     param: 'member.expire_time',
-                    //     width: '200',
-                    // },
-                    {
-                        title: '操作人',
-                        param: 'member.creator_name',
-                        width: '100',
-                    }
-                ],
+                }, {
+                    title: '操作人',
+                    param: 'member.creator_name',
+                    width: '100',
+                }],
                 tableData: [],
                 thTableList02: [{
                     title: '车牌号码',
@@ -240,7 +222,6 @@
                 this.multipleSelection.forEach(item => {
                     SelectList.push(item.id)
                 });
-
                 this.multiSelectString = SelectList.toLocaleString()
             },
             //删除
@@ -292,7 +273,6 @@
                 }
             },
             pageChange() {
-                // console.log('-sdafdsfdsfdsfs')
                 setTimeout(() => {
                     this.getList();
                 })
@@ -304,7 +284,6 @@
                     plate_number: this.searchPostData.plate_number,
                     creator: this.searchPostData.creator,
                 };
-
                 if (this.CreatedTime instanceof Array && this.CreatedTime.length > 0) {
                     let nowDateDetail = this.pbFunc.getDateDetail(new Date(this.CreatedTime[0]));
                     let nowDateDetail1 = this.pbFunc.getDateDetail(new Date(this.CreatedTime[1]));
@@ -325,7 +304,7 @@
                     }
                 }).catch((err) => {
                     this.pageLoading = false;
-                })
+                });
                 this.$$http01('list_temp_amount', postData).then((results) => {
                     this.pageLoading = false;
                     if (results.data && results.data.code == 0) {
@@ -334,19 +313,17 @@
                     }
                 }).catch((err) => {
                     this.pageLoading = false;
-                })
+                });
                 this.$$http01('list_users', postData).then((results) => {
                     this.pageLoading = false;
                     if (results.data && results.data.code == 0) {
-                        this.data1 = results.data.data
-                        this.data1.push('')
+                        this.data1 = results.data.data;
+                        this.data1.push('');
                         this.selectData.CreatorList = this.data1;
-                        // this.pageData02.totalCount = results.data.data.count;
                     }
                 }).catch((err) => {
                     this.pageLoading = false;
                 })
-
             }
         },
 

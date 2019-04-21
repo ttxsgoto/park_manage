@@ -5,7 +5,6 @@
         <el-dialog :title="title" :visible="arapDialog.isShow" width="30%" center :before-close="closeBtn"
                    :close-on-click-modal="false">
             <div class="tms-dialog-form">
-                <!--<el-form class="tms-dialog-content" label-width="110px" :rules="rules" :model="formRules" status-icon-->
                 <el-form class="tms-dialog-content" label-width="110px" :model="detailData" status-icon
                          ref="detailData">
                     <el-form-item label="车位号:" prop="detailData.arapData.id">
@@ -54,7 +53,6 @@
                 required: true
             },
         },
-
         data: function () {
             return {
                 isDisabled: true,
@@ -81,20 +79,14 @@
         watch: {
             arapDialog(curVal, oldVal) {
                 if (curVal.type === 'update') {
-                    console.log('-------->', this.arapRow)
                     this.detailData.arapData = this.arapRow
                 } else {
                     this.title = '新增打款事项';
                 }
-                // if (this.$refs['formRules']) {
-                //     this.$refs['formRules'].clearValidate();
-                // }
-
             },
         },
         created: function () {
             this.pbFunc.format();
-            // this.getSupplier();
         }
     }
 

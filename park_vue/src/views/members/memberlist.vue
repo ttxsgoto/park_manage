@@ -22,9 +22,7 @@
                     </el-form>
                 </div>
                 <div class="operation-btn text-right" style="border:5px;text-align:right;float:right">
-                    <!--<el-button type="primary" plain @click="" >导入</el-button> -->
                     <el-button type="primary" @click="arapDialogEdit('add')">新增</el-button>
-                    <!--<el-button type="primary" @click="arapDialogEdit('del')">删除</el-button>-->
                     <el-button type="danger" @click="handleDel(multiSelectString)">删除</el-button>
                 </div>
                 <div class="table-list">
@@ -32,12 +30,6 @@
                               v-loading="pageLoading" :class="{'tabal-height-500':!tableData.length}"
                               @selection-change="handleSelectionChange"
                     >
-                        <!--<el-table-column label="" width="65">-->
-                        <!--单选操作-->
-                        <!--<template scope="scope">-->
-                        <!--<el-radio :label="scope.row.id" v-model="templateRadio" @change.native="getTemplateRow(scope.$index,scope.row)">&nbsp</el-radio>-->
-                        <!--</template>-->
-                        <!--</el-table-column>-->
                         <el-table-column
                                 type="selection"
                                 width="55">
@@ -50,9 +42,6 @@
                                 <el-button type="primary" size="mini" @click="arapDialogEdit('update',scope.row)">
                                     修改
                                 </el-button>
-                                <!--<el-button type="primary" size="mini" @click="arapDialogEdit('delete',scope.row)">-->
-                                <!--删除-->
-                                <!--</el-button>-->
                                 <el-button type="primary" size="mini" @click="arapDialogEdit('detail',scope.row)">
                                     详情
                                 </el-button>
@@ -92,7 +81,6 @@
                 },
                 activeName: 'payment',
                 searchPostData: {}, //搜索参数
-                // templateSelection: {},
                 multipleSelection: [],
                 multiSelectString: '',
                 searchFilters: {
@@ -228,9 +216,6 @@
                     this.arapRow = row;
                 }
             },
-            // getTemplateRow(index,row){                                 //获取选中数据
-            //     this.templateSelection = row;
-            // },
             startSearch() {
                 this.pageData.currentPage = 1;
                 this.searchPostData = this.pbFunc.deepcopy(this.searchFilters);
