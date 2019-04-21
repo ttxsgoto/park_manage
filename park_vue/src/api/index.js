@@ -64,7 +64,7 @@ const errorState = function (error) {
     // if (error && error.response && error.response.status === 401) {
     //     // router.push({ path: "/login" });
     // }
-}
+};
 
 /* 根据后端接口文档统一处理错误信息 */
 const successState = function (response) {
@@ -79,22 +79,22 @@ const successState = function (response) {
         } else if (response.data.code == 0) {
 
         } else if (response.data.code == -1) {
-            Message.error({
-                message: response.data.msg,
-            });
+            if (response.data.msg != "Invalid page.") {
+                Message.error({
+                    message: response.data.msg,
+                });
+            }
         } else {
             if (response.data.msg) {
                 Message.error(response.data.msg);
             }
         }
     }
-
-}
+};
 
 /* 处理url */
 const dealApiUrlParam = function (apiName, postData) {
     let httpUrl = api01[apiName].url;
-
     if (httpUrl) {
         //设置最大循环数,以免死机
         let maxTimes = 0;
@@ -187,45 +187,9 @@ const dealConfig01 = function (apiName, postData) {
 
 
 /* http请求统一函数 */
-// export const httpServer01 = (apiName, postData, defaultSuccessCallback, defaultErrorCallback) => {
-//
-//   if (!apiName) return false;
-//
-//   let httpConfig = dealConfig01(apiName, postData);
-//
-//   let promise01 = new Promise(function (resolve, reject) {
-//     axios(httpConfig).then(
-//       (res) => {
-//         //默认使用successState
-//         if (defaultSuccessCallback === undefined) {
-//           successState(res)
-//         } else if (typeof defaultSuccessCallback === 'function') {
-//           defaultSuccessCallback(res);
-//         }
-//         resolve(res)
-//       }
-//     ).catch(
-//       (response) => {
-//         //默认使用errorState
-//         if (defaultErrorCallback === undefined) {
-//           errorState(response)
-//         } else if (typeof defaultErrorCallback === 'function') {
-//           defaultErrorCallback(response);
-//         }
-//         reject(response)
-//       }
-//     )
-//
-//   })
-//   return promise01
-// }
-
 export const httpServer01 = (apiName, postData, defaultSuccessCallback, defaultErrorCallback) => {
-
     if (!apiName) return false;
-
     let httpConfig = dealConfig01(apiName, postData);
-
     let promise01 = new Promise(function (resolve, reject) {
         axios(httpConfig).then(
             (res) => {
@@ -248,7 +212,7 @@ export const httpServer01 = (apiName, postData, defaultSuccessCallback, defaultE
                 reject(response)
             }
         )
-
-    })
+    });
     return promise01
-}
+};
+

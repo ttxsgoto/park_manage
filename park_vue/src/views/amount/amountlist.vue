@@ -84,12 +84,12 @@
     </div>
 </template>
 <script>
-    import amountDialog from './amountDialog';
+    import AmountDialog from './amountDialog';
 
     export default {
         name: 'amountList',
         components: {
-            amountDialog: amountDialog
+            amountDialog: AmountDialog
         },
         computed: {},
         data() {
@@ -292,7 +292,7 @@
                 }
             },
             pageChange() {
-                console.log('-sdafdsfdsfdsfs')
+                // console.log('-sdafdsfdsfdsfs')
                 setTimeout(() => {
                     this.getList();
                 })
