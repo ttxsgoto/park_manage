@@ -208,7 +208,17 @@
             closeDialog: function (isSave) {
                 this.arapDialog.isShow = false;
                 if (isSave) {
-                    this.getList();
+                    this.get_temp_list();
+                    // setTimeout(() => {
+                    // let nowDate = new Date();
+                    // let nowDateDetail = this.pbFunc.getDateDetail(nowDate);
+                    // let nowDateStr = nowDateDetail.year + '-' + nowDateDetail.month + '-' + nowDateDetail.day + ' ' + nowDateDetail.hour + ':' + nowDateDetail.minute + ':' + nowDateDetail.second;
+                    //
+                    // this.CreatedTime = ['2019-01-01 08:00:00', nowDateStr];
+                    // this.searchPostData = this.pbFunc.deepcopy(this.searchFilters);
+                    // this.getList();
+                    // this.getList();
+                    // })
                 }
             },
             handleSelectionChange(val) {
@@ -277,6 +287,22 @@
                     this.getList();
                 })
             },
+            get_temp_list() {
+                let postData = {
+                    page: this.pageData02.currentPage,
+                    page_size: this.pageData02.pageSize,
+                };
+                this.$$http01('list_member_amount', postData).then((results) => {
+                    this.pageLoading = false;
+                    if (results.data && results.data.code == 0) {
+                        this.tableData = results.data.data.data;
+                        this.all_sum = results.data.all_sum;
+                        this.pageData.totalCount = results.data.data.count;
+                    }
+                }).catch((err) => {
+                    this.pageLoading = false;
+                });
+            },
             getList: function () {
                 let postData = {
                     page: this.pageData02.currentPage,
@@ -295,6 +321,7 @@
                 postData[this.searchPostData.field] = this.searchPostData.keyword;
                 postData = this.pbFunc.fifterObjIsNull(postData);
                 this.pageLoading = true;
+                console.log('aaaaaaa--->', postData)
                 this.$$http01('list_member_amount', postData).then((results) => {
                     this.pageLoading = false;
                     if (results.data && results.data.code == 0) {
@@ -336,8 +363,10 @@
             let nowDate = new Date();
             let nowDateDetail = this.pbFunc.getDateDetail(nowDate);
             let nowDateStr = nowDateDetail.year + '-' + nowDateDetail.month + '-' + nowDateDetail.day + ' ' + nowDateDetail.hour + ':' + nowDateDetail.minute + ':' + nowDateDetail.second;
+
             this.CreatedTime = ['2019-01-01 08:00:00', nowDateStr];
             this.searchPostData = this.pbFunc.deepcopy(this.searchFilters);
+            console.log('xxxxxx', this.searchPostData)
             this.getList();
         }
     }

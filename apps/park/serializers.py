@@ -30,7 +30,7 @@ class MemberListSerializer(ModelSerializer):
         postion = instance.get_postion
         postion_id = postion.id if postion else ''
         data['postion_id'] = postion_id
-        data['member_type_ch'] = '包年' if instance.type == 'year' else '包季'
+        data['member_type_ch'] = '包年' if instance.member_type == 'year' else '包季'
         data['type_ch'] = dict(Member.CAR_TYPE).get(instance.type, '')
         return data
 

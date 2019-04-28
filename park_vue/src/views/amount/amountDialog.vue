@@ -23,7 +23,7 @@
 </template>
 <script>
     export default {
-        name: 'carpostionList',
+        name: 'AmountDialog',
         props: {
             arapDialog: {
                 type: Object,
@@ -140,9 +140,9 @@
                     this.formRules = {};
                     this.title = '进入车辆车牌号码';
                 }
-                if (this.$refs['formRules']) {
-                    this.$refs['formRules'].clearValidate();
-                }
+                // if (this.$refs['formRules']) {
+                //     this.$refs['formRules'].clearValidate();
+                // }
             },
         },
         created: function () {
