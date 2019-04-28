@@ -85,9 +85,9 @@
     import AmountDialog from './amountDialog';
 
     export default {
-        name: 'amountList',
+        name: 'AmountList',
         components: {
-            amountDialog: AmountDialog
+            AmountDialog: AmountDialog
         },
         computed: {},
         data() {
@@ -208,7 +208,7 @@
             closeDialog: function (isSave) {
                 this.arapDialog.isShow = false;
                 if (isSave) {
-                    this.get_temp_list();
+                    // this.get_temp_list();
                     // setTimeout(() => {
                     // let nowDate = new Date();
                     // let nowDateDetail = this.pbFunc.getDateDetail(nowDate);
@@ -217,7 +217,7 @@
                     // this.CreatedTime = ['2019-01-01 08:00:00', nowDateStr];
                     // this.searchPostData = this.pbFunc.deepcopy(this.searchFilters);
                     // this.getList();
-                    // this.getList();
+                    this.getList();
                     // })
                 }
             },
@@ -321,7 +321,6 @@
                 postData[this.searchPostData.field] = this.searchPostData.keyword;
                 postData = this.pbFunc.fifterObjIsNull(postData);
                 this.pageLoading = true;
-                console.log('aaaaaaa--->', postData)
                 this.$$http01('list_member_amount', postData).then((results) => {
                     this.pageLoading = false;
                     if (results.data && results.data.code == 0) {

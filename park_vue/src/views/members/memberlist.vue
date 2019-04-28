@@ -4,7 +4,7 @@
     <div>
         <div class="nav-tab">
             <el-tabs v-model="activeName" type="card">
-                <!-- <el-tab-pane label="车位管理" name="payment"> -->
+                <el-tab-pane label="会员管理" name="members"></el-tab-pane>
                 <div class="tab-screen">
                     <el-form class="search-filters-form" label-width="80px" :model="searchFilters" status-icon>
                         <el-row :gutter="0">
@@ -21,6 +21,9 @@
                         </el-row>
                     </el-form>
                 </div>
+                <el-tab-pane label="费用管理" name="payment">
+
+                </el-tab-pane>
                 <div class="operation-btn text-right" style="border:5px;text-align:right;float:right">
                     <el-button type="primary" @click="arapDialogEdit('add')">新增</el-button>
                     <el-button type="danger" @click="handleDel(multiSelectString)">删除</el-button>
