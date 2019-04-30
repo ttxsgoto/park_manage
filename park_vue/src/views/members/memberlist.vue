@@ -3,7 +3,7 @@
 <template>
     <div>
         <div class="nav-tab">
-            <el-tabs v-model="activeName" type="card">
+            <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
                 <el-tab-pane label="会员管理" name="members"></el-tab-pane>
                 <div class="tab-screen">
                     <el-form class="search-filters-form" label-width="80px" :model="searchFilters" status-icon>
@@ -82,7 +82,7 @@
                     totalCount: '',
                     pageSize: 10,
                 },
-                activeName: 'payment',
+                activeName: 'members',
                 searchPostData: {}, //搜索参数
                 multipleSelection: [],
                 multiSelectString: '',
@@ -159,6 +159,11 @@
             }
         },
         methods: {
+          handleClick: function(tab, event) {
+            if (tab.name === 'payment') {
+              this.$router.push({ path: "/amount" });
+            }
+          },
             closeDialog: function (isSave) {
                 this.arapDialog.isShow = false;
                 if (isSave) {
@@ -254,6 +259,9 @@
                 })
             },
         },
+        activated() {
+          this.activeName = 'payment'
+        },
         pageChange: function () {
             setTimeout(() => {
                 this.getList();
@@ -261,6 +269,7 @@
         },
         created: function () {
             this.getList();
-        }
+        },
+
     }
 </script>

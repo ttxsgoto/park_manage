@@ -19,7 +19,7 @@ import arap from '../views/arap/arap'
 import paymentManage from '../views/arap/supplierMeetManage/paymentManage'
 import carpostion from '../views/carpostion/carpostion'
 import members from '../views/members/memberlist'
-import amount from '../views/amount/amountlist'
+// import amount from '../views/amount/amountlist'
 
 let routes = [
     {
@@ -114,19 +114,30 @@ let routes = [
         iconCls: 'fa fa-id-card-o',
         // leaf: true,//只有一个节点
         children: [
-            {path: '/members', component: members, name: '会员管理',},
-            {path: '/amount', component: amount, name: '费用管理',},
+            {
+              name: '会员管理',
+              path: '/members',
+              component: members,
+            },
+            {
+              name: '费用管理',
+              path: '/amount',
+              // leaf: true,
+              hidden: true,
+              component: (resolve) => require(['../views/amount/amountlist'], resolve),
+            },
         ]
     },
     // {
     //     path: '/',
     //     component: Home,
-    //     name: '费用(停车)管理',
+    //     name: '费用管理',
     //     // iconCls: 'el-icon-message',//图标样式class
     //     iconCls: 'fa fa-bar-chart',//图标样式class
-    //     leaf: true,//只有一个节点
+    //     // leaf: true,//只有一个节点
+    //     hidden: true,
     //     children: [
-    //         {path: '/amount', component: amount, name: '费用管理',},
+    //         {path: '/amount', component: (resolve) => require(['../views/amount/amountlist'], resolve), name: '费用管理',},
     //     ]
     // },
     // {

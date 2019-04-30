@@ -3,43 +3,46 @@
 <template>
     <div>
         <div class="nav-tab">
-            <el-tabs v-model="activeName" type="card">
-                <!-- <el-tab-pane label="车位管理" name="payment"> -->
-                <div class="tab-screen">
-                    <el-form class="search-filters-form" label-width="80px" :model="searchFilters" status-icon>
-                        <el-row :gutter="0">
-                            <el-col :span="12">
-                                <el-input placeholder="请输入" v-model="searchFilters.keyword"
-                                          @keyup.native.13="startSearch" class="search-filters-screen">
-                                    <el-select v-model="searchFilters.field" slot="prepend" placeholder="请选择">
-                                        <el-option v-for="(item,key) in selectData.fieldSelect" :key="key"
-                                                   :label="item.value" :value="item.id"></el-option>
-                                    </el-select>
-                                    <el-button slot="append" icon="el-icon-search" @click="startSearch"></el-button>
-                                </el-input>
-                            </el-col>
-                        </el-row>
-                        <el-row :gutter="10">
-                            <el-col :span="8">
-                                <el-form-item label="费用时间:" label-width="105px">
-                                    <el-date-picker v-model="CreatedTime" type="datetimerange" @change="startSearch"
-                                                    range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期"
-                                                    value-format="yyyy-MM-dd HH:mm:ss"
-                                                    :default-time="['00:00:00', '23:59:59']">
-                                    </el-date-picker>
-                                </el-form-item>
-                            </el-col>
-                            <el-col :span="6">
-                                <el-form-item label="操作人:">
-                                    <el-select v-model="searchFilters.creator" @change="startSearch" placeholder="请选择">
-                                        <el-option v-for="(item,key) in selectData.CreatorList" :key="key"
-                                                   :label="item.username" :value="item.id"></el-option>
-                                    </el-select>
-                                </el-form-item>
-                            </el-col>
-                        </el-row>
-                    </el-form>
-                </div>
+          <!-- <el-tabs v-model="activeName" type="card" @tab-click="handleClick"> -->
+            <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
+                <el-tab-pane label="会员管理" name="members"> </el-tab-pane>
+                <el-tab-pane label="费用管理" name="payment">
+                    <div class="tab-screen">
+                        <el-form class="search-filters-form" label-width="80px" :model="searchFilters" status-icon>
+                            <el-row :gutter="0">
+                                <el-col :span="12">
+                                    <el-input placeholder="请输入" v-model="searchFilters.keyword"
+                                              @keyup.native.13="startSearch" class="search-filters-screen">
+                                        <el-select v-model="searchFilters.field" slot="prepend" placeholder="请选择">
+                                            <el-option v-for="(item,key) in selectData.fieldSelect" :key="key"
+                                                       :label="item.value" :value="item.id"></el-option>
+                                        </el-select>
+                                        <el-button slot="append" icon="el-icon-search" @click="startSearch"></el-button>
+                                    </el-input>
+                                </el-col>
+                            </el-row>
+                            <el-row :gutter="10">
+                                <el-col :span="8">
+                                    <el-form-item label="费用时间:" label-width="105px">
+                                        <el-date-picker v-model="CreatedTime" type="datetimerange" @change="startSearch"
+                                                        range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期"
+                                                        value-format="yyyy-MM-dd HH:mm:ss"
+                                                        :default-time="['00:00:00', '23:59:59']">
+                                        </el-date-picker>
+                                    </el-form-item>
+                                </el-col>
+                                <el-col :span="6">
+                                    <el-form-item label="操作人:">
+                                        <el-select v-model="searchFilters.creator" @change="startSearch" placeholder="请选择">
+                                            <el-option v-for="(item,key) in selectData.CreatorList" :key="key"
+                                                       :label="item.username" :value="item.id"></el-option>
+                                        </el-select>
+                                    </el-form-item>
+                                </el-col>
+                            </el-row>
+                        </el-form>
+                    </div>
+                </el-tab-pane>
                 <div class="operation-btn text-right" style="border:5px;text-align:right;float:right">
                     <el-button type="primary" @click="arapDialogEdit('add')">进入</el-button>
                     <el-button type="danger" @click="arapDialogEdit('del')">离开</el-button>
@@ -205,6 +208,11 @@
             }
         },
         methods: {
+          handleClick: function(tab, event) {
+            if (tab.name === 'members') {
+              this.$router.push({ path: "/members" });
+            }
+          },
             closeDialog: function (isSave) {
                 this.arapDialog.isShow = false;
                 if (isSave) {
@@ -357,6 +365,9 @@
             setTimeout(() => {
                 this.getList();
             })
+        },
+        activated() {
+          this.activeName = 'members'
         },
         created: function () {
             let nowDate = new Date();
