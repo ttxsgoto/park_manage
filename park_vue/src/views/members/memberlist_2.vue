@@ -4,7 +4,7 @@
     <div>
         <div class="nav-tab">
             <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
-                <el-tab-pane label="会员管理" name="members"></el-tab-pane>
+                <!--<el-tab-pane label="会员管理" name="members"></el-tab-pane>-->
                 <div class="tab-screen">
                     <el-form class="search-filters-form" label-width="80px" :model="searchFilters" status-icon>
                         <el-row :gutter="0">
@@ -21,11 +21,11 @@
                         </el-row>
                     </el-form>
                 </div>
-                <el-tab-pane label="费用管理" name="payment">
+                <!--<el-tab-pane label="费用管理" name="payment">-->
 
-                </el-tab-pane>
+                <!--</el-tab-pane>-->
                 <div class="operation-btn text-right" style="border:5px;text-align:right;float:right">
-                    <el-button type="primary" @click="arapDialogEdit('add')">新增</el-button>
+                    <el-button type="primary" @click="AddPeopleEdit">新增</el-button>
                     <el-button type="danger" @click="handleDel(multiSelectString)">删除</el-button>
                 </div>
                 <div class="table-list">
@@ -42,11 +42,19 @@
                         </el-table-column>
                         <el-table-column label="操作" align="center">
                             <template scope="scope">
-                                <el-button type="primary" size="mini" @click="arapDialogEdit('update',scope.row)">
+                                <!--<el-button type="primary" size="mini" @click="arapDialogEdit('update',scope.row)">-->
+                                    <!--修改-->
+                                <!--</el-button>-->
+                                <!--<el-button type="primary" size="mini" @click="arapDialogEdit('detail',scope.row)">-->
+                                <!--详情-->
+                                <!--</el-button>-->
+
+                                <el-button type="primary" size="mini"
+                                           @click="jumpPage({operator:'update',rowData:scope.row})">
                                     修改
                                 </el-button>
-                                <el-button type="primary" size="mini" @click="arapDialogEdit('detail',scope.row)">
-                                    详情
+                                <el-button size="mini" type="primary"
+                                           @click="jumpPage({operator:'show',rowData:scope.row})">查看
                                 </el-button>
                             </template>
                         </el-table-column>
@@ -159,12 +167,16 @@
             }
         },
         methods: {
-          handleClick: function(tab, event) {
-            if (tab.name === 'payment') {
-              this.$router.push({ path: "/amount/list" });
-                // this.$router.push({ name: 'amount_list' });
-            }
-          },
+            AddPeopleEdit: function () {
+                // this.$router.push({ path: "/people/add/" });
+                window.open(`#/people/add/`, '_blank');
+            },
+            handleClick: function (tab, event) {
+                if (tab.name === 'payment') {
+                    this.$router.push({path: "/amount/list"});
+                    // this.$router.push({ name: 'amount_list' });
+                }
+            },
             closeDialog: function (isSave) {
                 this.arapDialog.isShow = false;
                 if (isSave) {
@@ -216,13 +228,20 @@
                     })
                 }
             },
-            arapDialogEdit(type, row) {
-                this.arapDialog = {
-                    isShow: true,
-                    type: type
-                };
-                if (row) {
-                    this.arapRow = row;
+            // arapDialogEdit(type, row) {
+            //     this.arapDialog = {
+            //         isShow: true,
+            //         type: type
+            //     };
+            //     if (row) {
+            //         this.arapRow = row;
+            //     }
+            // },
+            jumpPage: function (scope) {
+                if (scope.operator == "show") {
+                    window.open(`#/people/${scope.rowData.id}/`, '_blank')
+                } else if (scope.operator == "update") {
+                    window.open(`#/people_/${scope.rowData.id}/`, '_blank')
                 }
             },
             startSearch() {
@@ -261,7 +280,7 @@
             },
         },
         activated() {
-          this.activeName = 'payment'
+            this.activeName = 'payment'
         },
         pageChange: function () {
             setTimeout(() => {

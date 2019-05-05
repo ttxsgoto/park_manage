@@ -40,6 +40,10 @@
                         </el-row>
                     </el-form>
                 </div>
+                <!--<div class="operation-btn text-right" style="border:5px;text-align:right;float:right">-->
+                    <!--<el-button type="primary" @click="AddPeopleEdit('add')">新增</el-button>-->
+                    <!--<el-button type="danger" @click="handleDel(multiSelectString)">删除</el-button>-->
+                <!--</div>-->
                 <div class="operation-btn text-right" style="border:5px;text-align:right;float:right">
                 </div>
                 <div class="table-list">
@@ -67,7 +71,7 @@
             </el-tabs>
         </div>
         <postion-detail :arap-dialog="arapDialog" v-on:closeDialogBtn="closeDialog"
-        :arap-row="arapRow"></postion-detail>
+                        :arap-row="arapRow"></postion-detail>
     </div>
 </template>
 <script>
@@ -190,7 +194,15 @@
                     this.pageLoading = false;
                 })
             },
+
+            // AddPeopleEdit(type, row) {
+            //     if (row) {
+            //         this.arapRow = row;
+            //     }
+
+            // }
         },
+
         pageChange: function () {
             setTimeout(() => {
                 this.getList();

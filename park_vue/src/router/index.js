@@ -17,8 +17,8 @@ import Page6 from '../views/nav3/Page6.vue'
 import echarts from '../views/charts/echarts.vue'
 import arap from '../views/arap/arap'
 import paymentManage from '../views/arap/supplierMeetManage/paymentManage'
-import carpostion from '../views/carpostion/carpostion'
-import members from '../views/members/memberlist'
+// import carpostion from '../views/carpostion/carpostion'
+// import members from '../views/members/memberlist'
 // import amount from '../views/amount/amountlist'
 
 let routes = [
@@ -82,10 +82,26 @@ let routes = [
         name: '应收应付',
         iconCls: 'el-icon-message',//图标样式class
         children: [
-            {path: '/supplierManage', component: arap, name: '供应商管理',},
-            {path: '/paymentManage', component: Table, name: '付款方管理'},
-            {path: '/form', component: Form, name: 'Form'},
-            {path: '/user', component: user, name: '列表'},
+            {
+                name: '供应商管理',
+                path: '/supplierManage',
+                component: arap,
+            },
+            {
+                name: '付款方管理',
+                path: '/paymentManage',
+                component: Table,
+            },
+            {
+                name: 'Form',
+                path: '/form',
+                component: Form,
+            },
+            {
+                name: '列表',
+                path: '/user',
+                component: user,
+            },
         ]
     },
     {
@@ -94,7 +110,11 @@ let routes = [
         name: '付款方管理',
         hidden: true,
         children: [
-            {path: '/paymentManage', component: paymentManage, name: '付款方管理',}
+            {
+                name: '付款方管理',
+                path: '/paymentManage',
+                component: paymentManage,
+            }
         ]
     },
     {
@@ -104,7 +124,12 @@ let routes = [
         iconCls: 'el-icon-menu',
         leaf: true,//只有一个节点
         children: [
-            {path: '/carpostion', component: carpostion, name: '车位管理',},
+            {
+                name: '车位管理',
+                path: '/carpostion',
+                component: (resolve) => require(['../views/carpostion/carpostion'], resolve),
+                // component: carpostion,
+            },
         ]
     },
     {
@@ -115,17 +140,51 @@ let routes = [
         // leaf: true,//只有一个节点
         children: [
             {
-              name: '会员管理',
-              path: '/members',
-              component: members,
+                name: '会员管理',
+                path: '/members/list',
+                component: (resolve) => require(['../views/members/memberlist'], resolve),
+                // component: members,
             },
             {
-              name: '费用管理',
-              path: '/amount',
-              // leaf: true,
-              hidden: true,
-              component: (resolve) => require(['../views/amount/amountlist'], resolve),
+                name: '费用管理',
+                path: '/amount/list',
+                // leaf: true,
+                hidden: true,
+                component: (resolve) => require(['../views/amount/amountlist'], resolve),
             },
+        ]
+    },
+    {
+        path: '/',
+        component: Home,
+        name: '人员管理',
+        iconCls: 'el-icon-menu',
+        leaf: true,//只有一个节点
+        children: [
+            {
+                name: '人员管理',
+                path: '/people',
+                component: (resolve) => require(['../views/members/memberlist_2'], resolve),
+            },
+            {
+                name: '人员管理添加',
+                path: '/people/add',
+                // leaf: true,
+                hidden: true,
+                component: (resolve) => require(['../views/members/memberAdd'], resolve),
+            },
+            {
+                name: '人员管理详情',
+                path: 'people/:id/',
+                hidden: true,
+                component: (resolve) => require(['../views/members/memberDetails'], resolve),
+            },
+            {
+                name: '人员管理编辑',
+                path: 'people_/:id/',
+                hidden: true,
+                component: (resolve) => require(['../views/members/memberEdit'], resolve),
+            }
         ]
     },
     // {
@@ -159,7 +218,7 @@ let routes = [
 
 const router = new Router({
     routes
-})
+});
 
 router.beforeEach((to, from, next) => {
     //NProgress.start();
@@ -172,6 +231,6 @@ router.beforeEach((to, from, next) => {
     } else {
         next()
     }
-})
+});
 
 export default router;

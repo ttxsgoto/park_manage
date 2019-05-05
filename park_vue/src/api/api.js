@@ -25,6 +25,12 @@ const api01 = {
         desc: '会员列表',
         param: {}
     },
+    list_members_detail: {
+        url: '/park/members/:id/',
+        method: 'get',
+        desc: '会员详情',
+        param: {}
+    },
     add_members: {
         url: '/park/members/',
         method: 'post',

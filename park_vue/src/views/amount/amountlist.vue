@@ -210,7 +210,7 @@
         methods: {
           handleClick: function(tab, event) {
             if (tab.name === 'members') {
-              this.$router.push({ path: "/members" });
+              this.$router.push({ path: "/members/list" });
             }
           },
             closeDialog: function (isSave) {
