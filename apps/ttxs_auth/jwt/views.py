@@ -59,7 +59,8 @@ class LoginView(JSONWebTokenAPIView):
                                     httponly=True)
             return Response({
                 'code': 0,
-                'data': response_data
+                'data': response_data,
+                'user': request.data.get('username', '')
             })
 
         return Response({

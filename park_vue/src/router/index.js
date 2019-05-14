@@ -34,6 +34,20 @@ let routes = [
         name: '',
         hidden: true
     },
+    {
+        path: '/setting',
+        component: Home,
+        name: '个人设置',
+        hidden: true,
+        children: [
+            {
+                name: '个人设置',
+                path: '/setting',
+                component: (resolve) => require(['../views/Setting'], resolve),
+                // component: carpostion,
+            },
+        ]
+    },
     // { path: '/main', component: Main },
     {
         path: '/',

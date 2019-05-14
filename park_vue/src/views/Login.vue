@@ -63,10 +63,9 @@
                         };
 
                         this.$$http01('login01', loginParams).then((results) => {
-                          console.log('-------', results.data)
                             if (results.data && results.data.code === 0) {
                                 this.pbFunc.setLocalData('token', results.data.data.token, true);
-                                this.pbFunc.setLocalData('user', results.data.data.user, true);
+                                // this.pbFunc.setLocalData('user', results.data.user, true);
                                 this.$message({
                                     message: '登录成功',
                                     type: 'success'
@@ -74,13 +73,12 @@
                                 // this.$emit('login');
                                 // Router.push({ path: "/" });
                                 var user = {
-                                    user: 'admin',
+                                    user: results.data.user,
                                     name: 'ttxsgoto',
                                     avatar: 'https://raw.githubusercontent.com/taylorchen709/markdown-images/master/vueadmin/user.png',
                                 };
                                 sessionStorage.setItem('user', JSON.stringify(user));
                                 this.$router.push({path: '/carpostion'});
-                                console.log('end----->')
 
                             }
                         }).catch((err) => {

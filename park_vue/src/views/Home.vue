@@ -14,8 +14,8 @@
                     <span class="el-dropdown-link userinfo-inner"><img
                             :src="this.sysUserAvatar"/> {{sysUserName}}</span>
                     <el-dropdown-menu slot="dropdown">
-                        <el-dropdown-item>我的消息</el-dropdown-item>
-                        <el-dropdown-item>设置</el-dropdown-item>
+                        <!-- <el-dropdown-item>我的消息</el-dropdown-item> -->
+                        <el-dropdown-item @click.native="setting">设置</el-dropdown-item>
                         <el-dropdown-item divided @click.native="logout">退出登录</el-dropdown-item>
                     </el-dropdown-menu>
                 </el-dropdown>
@@ -125,12 +125,17 @@
                     //type: 'warning'
                 }).then(() => {
                     sessionStorage.removeItem('user');
+                    this.pbFunc.delLocalData('token');
                     _this.$router.push('/login');
                 }).catch(() => {
 
                 });
-
-
+            },
+            setting(){
+              this.$router.push({
+                path: `/setting/`,
+                // params: {id:scope.rowData.id}
+              });
             },
             //折叠导航栏
             collapse: function () {
@@ -141,16 +146,14 @@
             }
         },
         mounted() {
-            // var user = sessionStorage.getItem('user');
-            var user = this.pbFunc.getLocalData('user', true);
+            var user = sessionStorage.getItem('user');
+            // var user = this.pbFunc.getLocalData('user', true);
             // this.token = this.pbFunc.getLocalData('token', true);
             if (user) {
                 user = JSON.parse(user);
-
-                this.sysUserName = user.username || '';
-                this.sysUserAvatar = user.mobile_number || '';
+                this.sysUserName = user.user || '';
+                this.sysUserAvatar = user.avatar || '';
             }
-
         }
     }
 

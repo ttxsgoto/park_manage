@@ -239,9 +239,17 @@
             // },
             jumpPage: function (scope) {
                 if (scope.operator == "show") {
-                    window.open(`#/people/${scope.rowData.id}/`, '_blank')
+                    this.$router.push({
+                      path: `/people/${scope.rowData.id}/`,
+                      // params: {id:scope.rowData.id}
+                    });
+                    // window.open(`#/people/${scope.rowData.id}/`, '_blank')
                 } else if (scope.operator == "update") {
-                    window.open(`#/people_/${scope.rowData.id}/`, '_blank')
+                  this.$router.push({
+                    path: `/people_/${scope.rowData.id}/`,
+                    // params: {id:scope.rowData.id}
+                  });
+                    // window.open(`#/people_/${scope.rowData.id}/`, '_blank')
                 }
             },
             startSearch() {
