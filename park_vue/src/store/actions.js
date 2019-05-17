@@ -19,5 +19,3 @@
 //         console.log(this.member)
 //     }
 // }
-
-

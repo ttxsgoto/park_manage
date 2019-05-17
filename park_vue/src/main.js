@@ -5,7 +5,7 @@ import 'element-ui/lib/theme-default/index.css'
 import './assets/css/page.less'
 import './assets/css/list_fliter.less'
 import router from './router'
-import store from './store '
+import store from './store'
 // import store from './vuex/store'
 import Vuex from 'vuex'
 
@@ -37,4 +37,3 @@ new Vue({
     render: h => h(App)
 })
     // .$mount('#app')
-

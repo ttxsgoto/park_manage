@@ -67,6 +67,7 @@
 </template>
 <script>
     import MemberAdd from './memberDialog';
+    import {mapMutations} from 'vuex'
 
     export default {
         name: 'carpostionList',
@@ -165,6 +166,9 @@
                 // this.$router.push({ name: 'amount_list' });
             }
           },
+          ...mapMutations({
+                  SET_MEMBER: 'SET_MEMBER'
+              }),
             closeDialog: function (isSave) {
                 this.arapDialog.isShow = false;
                 if (isSave) {
@@ -223,6 +227,7 @@
                 };
                 if (row) {
                     this.arapRow = row;
+                    this.SET_MEMBER(row);
                 }
             },
             startSearch() {

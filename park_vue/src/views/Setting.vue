@@ -3,28 +3,47 @@
 
 <template>
     <div>
-        <el-form class="tms-dialog-content" label-width="110px" :rules="rules" :model="formRules" status-icon
+        <el-form class="tms-dialog-conten" label-width="110px" :rules="rules" :model="formRules" status-icon
                  ref="formRules">
             <el-row>
-                <el-col :span="10">
-                    <el-form-item label="原始密码:" prop="username">
-                        <el-input placeholder="请输入" :disabled="isDisabled" v-model="formRules.username"></el-input>
+                <el-col :span="15">
+                    <el-form-item v-if="visible" label="原始密码:" prop="old_pwd">
+                        <el-input placeholder="请输入" type="password" :disabled="isDisabled" v-model="formRules.old_pwd"
+                        style="width: 300px;">
+                        <i slot="suffix" title="隐藏密码" @click="changePass('show')" style="cursor:pointer;"
+                          class="iconfont icon-xianshizy"></i>
+                        </el-input>
+                    </el-form-item>
+                    <el-form-item v-else label="原始密码:"  class="is-required" prop="old_pwd">
+                        <el-input placeholder="请输入" type="text" :disabled="isDisabled" v-model="formRules.old_pwd"
+                        style="width: 300px;">
+                        <!-- <i slot="suffix" class="el-icon-view" @click="showPwd"></i> -->
+                        <i slot="suffix" title="隐藏密码" @click="changePass('hide')" style="cursor:pointer;"
+                          class="iconfont icon-yincangby"></i>
+                        </el-input>
                     </el-form-item>
                 </el-col>
-                <el-col :span="10">
-                    <el-form-item label="新密码:" prop="phone">
-                        <el-input placeholder="请输入" :disabled="isDisabled" v-model="formRules.phone"></el-input>
+                <el-col :span="15">
+                    <el-form-item label="新密码:" prop="new_pwd">
+                        <el-input placeholder="请输入" type="password" :disabled="isDisabled" v-model="formRules.new_pwd"
+                        style="width: 300px;">
+                        </el-input>
                     </el-form-item>
                 </el-col>
-                <el-col :span="10">
-                    <el-form-item label="确认密码:" prop="identity_card">
-                        <el-input placeholder="请输入" :disabled="isDisabled" v-model="formRules.identity_card"></el-input>
+                <el-col :span="15">
+                    <el-form-item label="确认密码:"  prop="sure_pwd" size="small">
+                        <el-input placeholder="请输入" type="password" :disabled="isDisabled" v-model="formRules.sure_pwd"
+                        style="width: 300px;">
+                        </el-input>
                     </el-form-item>
-                </el-col :span="50">
-                    <!-- <el-button @click="closeBtn">取消</el-button>-->
-                    <el-button type="primary" @click="adjustBtn" :loading="submitBtn.isLoading"
-                               :disabled="submitBtn.isDisabled">{{submitBtn.btnText}}
-                    </el-button>
+                </el-col>
+                <el-col :span="15" >
+                  <el-form-item>
+                      <!-- <el-button @click="closeBtn">取消</el-button>-->
+                      <el-button type="primary" @click="adjustBtn" :loading="submitBtn.isLoading"
+                                 :disabled="submitBtn.isDisabled">{{submitBtn.btnText}}
+                      </el-button>
+                  </el-form-item>
                 </el-col>
             </el-row>
         </el-form>
@@ -36,54 +55,26 @@
         data: function () {
             return {
                 formRules: {
-                    username: '',
-                    phone: '',
-                    identity_card: '',
-                    plate_number: '',
-                    postion_id: '',
-                    member_type: '',
-                    type: '',
-                    color: ''
+                    old_pwd: '',
+                    new_pwd: '',
+                    sure_pwd: '',
                 },
+                visible: true,
                 pageLoading: false,
                 isDisabled: false,
                 isDetail: false,
                 isUpdate: false,
-                MemberTypeSelect: [
-                    {id: 'quarter', name: '包季'},
-                    {id: 'year', name: '包年'},
-                ],
-                CarTypeSelect: [
-                    {id: 1, name: '轿车'},
-                    {id: 2, name: 'SUV'},
-                    {id: 3, name: 'MPV'},
-                    {id: 4, name: '跑车'},
-                    {id: 5, name: '皮卡'},
-                    {id: 6, name: '微面'},
-                ],
                 rules: {
-                    username: [
-                        {required: true, message: '请输入会员姓名', trigger: 'blur'},
+                    old_pwd: [
+                        {required: true, message: '请输入原密码', trigger: 'blur'},
                     ],
-                    phone: [
-                        {required: true, message: '请输入会员电话', trigger: 'blur'},
-                        {min: 11, max: 12, message: '必须为11位电话号码', trigger: 'blur'}
+                    new_pwd: [
+                        {required: true, message: '请输入新密码', trigger: 'blur'},
+                        {min: 6, max: 18, message: '密码最小长度大于6位', trigger: 'blur'}
                     ],
-                    identity_card: [
-                        {required: true, message: '请输入18位身份证号码', trigger: 'blur'},
-                        {min: 18, max: 18, message: '必须为18位身份证号码', trigger: 'blur'}
-                    ],
-                    plate_number: [
-                        {required: true, message: '请输入车牌号码', trigger: 'blur'}
-                    ],
-                    member_type: [
-                        {required: true, message: '请选择会员类型', trigger: 'blur'},
-                    ],
-                    postion_id: [
-                        {type: 'number', required: true, message: '请选择车位号', trigger: 'blur'},
-                    ],
-                    type: [
-                        {type: 'number', required: true, message: '请选择车辆类型', trigger: 'blur'},
+                    sure_pwd: [
+                        {required: true, message: '请确认密码', trigger: 'blur'},
+                        {min: 6, max: 18, message: '密码最小长度大于6位', trigger: 'blur'}
                     ],
                 },
                 submitBtn: {
@@ -107,18 +98,26 @@
             closeBtn: function () {
                 this.$emit('closeDialogBtn', false);
             },
-            getSupplier: function () {
-                this.supplierLoading = true;
-                this.$$http01('list_members_detail', {id: this.peopleId}).then((results) => {
-                    this.supplierLoading = false;
-                    if (results.data && results.data.code == 0) {
-                        this.formRules = results.data.data;
-                        this.isUpdate = true;
-                    }
-                }).catch((err) => {
-                    this.supplierLoading = false;
-                })
+            changePass(value) {
+              this.visible = !(value === 'show');
+            },    //判断渲染，true:暗文显示，false:明文显示
+            showPwd () {
+              this.pwdType === 'password' ? this.pwdType = '' : this.pwdType = 'password';
+              let e = document.getElementsByClassName('el-icon-view')[0];
+              this.pwdType == '' ? e.setAttribute('style', 'color: #409EFF') : e.setAttribute('style', 'color: #c0c4cc');
             },
+            // getSupplier: function () {
+            //     this.supplierLoading = true;
+            //     this.$$http01('list_members_detail', {id: this.peopleId}).then((results) => {
+            //         this.supplierLoading = false;
+            //         if (results.data && results.data.code == 0) {
+            //             this.formRules = results.data.data;
+            //             this.isUpdate = true;
+            //         }
+            //     }).catch((err) => {
+            //         this.supplierLoading = false;
+            //     })
+            // },
             adjustBtn: function () {
                 this.$refs['formRules'].validate((valid) => {
                     if (valid) {
@@ -163,7 +162,7 @@
         watch: {},
         created: function () {
             this.pbFunc.format();
-            this.getSupplier();
+            // this.getSupplier();
         }
     }
 </script>

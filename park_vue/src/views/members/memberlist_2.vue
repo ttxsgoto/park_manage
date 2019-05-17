@@ -75,13 +75,18 @@
 </template>
 <script>
     import MemberAdd from './memberDialog';
+    import {mapGetters} from 'vuex';
 
     export default {
         name: 'carpostionList',
         components: {
             MemberAdd: MemberAdd
         },
-        computed: {},
+        computed: {
+          ...mapGetters([
+                      'member'
+                  ])
+        },
         data() {
             return {
                 pageLoading: false,
@@ -167,6 +172,7 @@
             }
         },
         methods: {
+
             AddPeopleEdit: function () {
                 // this.$router.push({ path: "/people/add/" });
                 window.open(`#/people/add/`, '_blank');
@@ -297,6 +303,7 @@
         },
         created: function () {
             this.getList();
+            console.log('---------->', this.member);
         },
 
     }

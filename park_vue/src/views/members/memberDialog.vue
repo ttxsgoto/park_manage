@@ -60,6 +60,7 @@
     </div>
 </template>
 <script>
+    // import {mapGetters} from 'vuex';
     export default {
         name: 'carpostionList',
         props: {
@@ -139,7 +140,11 @@
                 title: '新增会员'
             }
         },
-        computed: {},
+        // computed: {
+        //   ...mapGetters([
+        //               'member'
+        //           ])
+        // },
         methods: {
             closeBtn: function () {
                 this.$emit('closeDialogBtn', false);
@@ -233,14 +238,15 @@
                     this.formRules = {};
                     this.title = '新增会员信息';
                 }
-                if (this.$refs['formRules']) {
-                    this.$refs['formRules'].clearValidate();
-                }
+                // if (this.$refs['formRules']) {
+                //     this.$refs['formRules'].clearValidate();
+                // }
             },
         },
         created: function () {
             this.pbFunc.format();
             this.getSupplier();
+            // console.log('-------->', this.member)
         }
     }
 </script>
