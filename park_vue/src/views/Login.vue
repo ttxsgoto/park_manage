@@ -62,7 +62,7 @@
 
                         };
 
-                        this.$$http01('login01', loginParams).then((results) => {
+                        this.$$http('login', loginParams).then((results) => {
                             if (results.data && results.data.code === 0) {
                                 this.pbFunc.setLocalData('token', results.data.data.token, true);
                                 // this.pbFunc.setLocalData('user', results.data.user, true);

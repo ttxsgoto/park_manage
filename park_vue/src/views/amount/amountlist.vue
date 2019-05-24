@@ -256,7 +256,7 @@
                     this.$confirm('确认删除该记录吗?', '提示', {
                         type: 'warning'
                     }).then(() => {
-                        this.$$http01('del_members', {id: id}).then((results) => {
+                        this.$$http('del_members', {id: id}).then((results) => {
                             if (results.data && results.data.code == 0) {
                                 this.$message({
                                     message: '删除会员成功',
@@ -300,7 +300,7 @@
                     page: this.pageData02.currentPage,
                     page_size: this.pageData02.pageSize,
                 };
-                this.$$http01('list_member_amount', postData).then((results) => {
+                this.$$http('list_member_amount', postData).then((results) => {
                     this.pageLoading = false;
                     if (results.data && results.data.code == 0) {
                         this.tableData = results.data.data.data;
@@ -329,7 +329,7 @@
                 postData[this.searchPostData.field] = this.searchPostData.keyword;
                 postData = this.pbFunc.fifterObjIsNull(postData);
                 this.pageLoading = true;
-                this.$$http01('list_member_amount', postData).then((results) => {
+                this.$$http('list_member_amount', postData).then((results) => {
                     this.pageLoading = false;
                     if (results.data && results.data.code == 0) {
                         this.tableData = results.data.data.data;
@@ -339,7 +339,7 @@
                 }).catch((err) => {
                     this.pageLoading = false;
                 });
-                this.$$http01('list_temp_amount', postData).then((results) => {
+                this.$$http('list_temp_amount', postData).then((results) => {
                     this.pageLoading = false;
                     if (results.data && results.data.code == 0) {
                         this.tableData02 = results.data.data.data;
@@ -348,7 +348,7 @@
                 }).catch((err) => {
                     this.pageLoading = false;
                 });
-                this.$$http01('list_users', postData).then((results) => {
+                this.$$http('list_users', postData).then((results) => {
                     this.pageLoading = false;
                     if (results.data && results.data.code == 0) {
                         this.data1 = results.data.data;

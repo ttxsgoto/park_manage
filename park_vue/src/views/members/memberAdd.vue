@@ -168,7 +168,7 @@
                     is_valid: 'True'
                 }
                 this.supplierLoading = true;
-                this.$$http01('list_car_postions', postData).then((results) => {
+                this.$$http('list_car_postions', postData).then((results) => {
                     this.supplierLoading = false;
                     if (results.data && results.data.code == 0) {
                         this.PostionListSelect = results.data.data.data;
@@ -186,7 +186,7 @@
                             isLoading: true
                         };
                         let postData = this.formRules;
-                        this.$$http01('add_members', postData).then((results) => {
+                        this.$$http('add_members', postData).then((results) => {
                             this.submitBtn = {
                                 btnText: '保存',
                                 isDisabled: false,

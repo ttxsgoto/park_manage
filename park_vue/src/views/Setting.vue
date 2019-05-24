@@ -108,7 +108,7 @@
             },
             // getSupplier: function () {
             //     this.supplierLoading = true;
-            //     this.$$http01('list_members_detail', {id: this.peopleId}).then((results) => {
+            //     this.$$http('list_members_detail', {id: this.peopleId}).then((results) => {
             //         this.supplierLoading = false;
             //         if (results.data && results.data.code == 0) {
             //             this.formRules = results.data.data;
@@ -128,7 +128,7 @@
                         };
                         let postData = this.formRules;
                         postData.id = this.peopleId;
-                        this.$$http01('update_members', postData).then((results) => {
+                        this.$$http('update_members', postData).then((results) => {
                             this.submitBtn = {
                                 btnText: '保存',
                                 isDisabled: false,

@@ -107,7 +107,7 @@
                     need_all: true,
                 }
                 this.supplierLoading = true;
-                this.$$http01('SupplierList', postData).then((results) => {
+                this.$$http('SupplierList', postData).then((results) => {
                     this.supplierLoading = false;
                     if (results.data && results.data.code == 0) {
                         this.supplierSelect = results.data.data;

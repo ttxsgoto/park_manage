@@ -21,15 +21,14 @@
                         </el-row>
                     </el-form>
                 </div>
-                <!--<el-tab-pane label="费用管理" name="payment">-->
 
-                <!--</el-tab-pane>-->
                 <div class="operation-btn text-right" style="border:5px;text-align:right;float:right">
                     <el-button type="primary" @click="AddPeopleEdit">新增</el-button>
                     <el-button type="danger" @click="handleDel(multiSelectString)">删除</el-button>
                 </div>
+
                 <div class="table-list">
-                    <el-table :data="tableData" stripe style="width: 100%" size="mini" max-height="600"
+                    <el-table :data="tableData" stripe style="width: 100%"
                               v-loading="pageLoading" :class="{'tabal-height-500':!tableData.length}"
                               @selection-change="handleSelectionChange"
                     >
@@ -41,14 +40,7 @@
                                          align="center" :label="item.title" :width="item.width">
                         </el-table-column>
                         <el-table-column label="操作" align="center">
-                            <template scope="scope">
-                                <!--<el-button type="primary" size="mini" @click="arapDialogEdit('update',scope.row)">-->
-                                    <!--修改-->
-                                <!--</el-button>-->
-                                <!--<el-button type="primary" size="mini" @click="arapDialogEdit('detail',scope.row)">-->
-                                <!--详情-->
-                                <!--</el-button>-->
-
+                            <template slot-scope="scope">
                                 <el-button type="primary" size="mini"
                                            @click="jumpPage({operator:'update',rowData:scope.row})">
                                     修改
@@ -217,7 +209,7 @@
                     this.$confirm('确认删除该记录吗?', '提示', {
                         type: 'warning'
                     }).then(() => {
-                        this.$$http01('del_members', {id: id}).then((results) => {
+                        this.$$http('del_members', {id: id}).then((results) => {
                             if (results.data && results.data.code == 0) {
                                 this.$message({
                                     message: '删除会员成功',
@@ -282,7 +274,7 @@
                 postData[this.searchPostData.field] = this.searchPostData.keyword;
                 postData = this.pbFunc.fifterObjIsNull(postData);
                 this.pageLoading = true;
-                this.$$http01('list_members', postData).then((results) => {
+                this.$$http('list_members', postData).then((results) => {
                     this.pageLoading = false;
                     if (results.data && results.data.code == 0) {
                         this.tableData = results.data.data.data;

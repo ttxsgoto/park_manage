@@ -84,7 +84,7 @@
                         } else {
                             apiName = 'come_out_park';
                         }
-                        this.$$http01(apiName, postData).then((results) => {
+                        this.$$http(apiName, postData).then((results) => {
                             this.submitBtn = {
                                 btnText: '保存',
                                 isDisabled: false,

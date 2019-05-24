@@ -1,7 +1,7 @@
 /* 处理http请求config */
 import axios from 'axios';
 import {getLocalData} from '../assets/js/cache';
-import api01 from './api';
+import api from './api';
 import router from '../router'
 let domainUrl = 'http://127.0.0.1:8080';
 import {Message} from 'element-ui';
@@ -93,7 +93,7 @@ const successState = function (response) {
 
 /* 处理url */
 const dealApiUrlParam = function (apiName, postData) {
-    let httpUrl = api01[apiName].url;
+    let httpUrl = api[apiName].url;
     if (httpUrl) {
         //设置最大循环数,以免死机
         let maxTimes = 0;
@@ -112,7 +112,7 @@ const dealApiUrlParam = function (apiName, postData) {
     return httpUrl;
 };
 
-const dealConfig01 = function (apiName, postData) {
+const dealConfig = function (apiName, postData) {
 
     const httpConfig = {
         method: '',
@@ -124,9 +124,9 @@ const dealConfig01 = function (apiName, postData) {
         headers: '',
     }
 
-    if (api01.hasOwnProperty(apiName)) {
-        let apiUrl = api01[apiName].url ? api01[apiName].url : '';
-        let method = api01[apiName].method ? api01[apiName].method.toLowerCase() : '';
+    if (api.hasOwnProperty(apiName)) {
+        let apiUrl = api[apiName].url ? api[apiName].url : '';
+        let method = api[apiName].method ? api[apiName].method.toLowerCase() : '';
         let token = getLocalData('token', true);
         httpConfig.method = method;
 
@@ -143,7 +143,7 @@ const dealConfig01 = function (apiName, postData) {
             }
         }
 
-        if (!api01[apiName].notNeedToken) {
+        if (!api[apiName].notNeedToken) {
             httpConfig.headers.Authorization = 'jwt ' + token;
         }
 
@@ -186,9 +186,9 @@ const dealConfig01 = function (apiName, postData) {
 
 
 /* http请求统一函数 */
-export const httpServer01 = (apiName, postData, defaultSuccessCallback, defaultErrorCallback) => {
+export const httpServer = (apiName, postData, defaultSuccessCallback, defaultErrorCallback) => {
     if (!apiName) return false;
-    let httpConfig = dealConfig01(apiName, postData);
+    let httpConfig = dealConfig(apiName, postData);
     let promise01 = new Promise(function (resolve, reject) {
         axios(httpConfig).then(
             (res) => {
@@ -214,4 +214,3 @@ export const httpServer01 = (apiName, postData, defaultSuccessCallback, defaultE
     });
     return promise01
 };
-

@@ -33,8 +33,7 @@
 	</section>
 </template>
 <script>
-	import { getUserList } from '../../api/api';
-	//import NProgress from 'nprogress'
+	import getUserList from '../../api/api';
 	export default {
 		data() {
 			return {

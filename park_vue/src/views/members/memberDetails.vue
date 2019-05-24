@@ -179,7 +179,7 @@
                 }
                 this.supplierLoading = true;
 
-                this.$$http01('list_members_detail', {id: this.peopleId}).then((results) => {
+                this.$$http('list_members_detail', {id: this.peopleId}).then((results) => {
                     this.supplierLoading = false;
                     if (results.data && results.data.code == 0) {
                         this.formRules = results.data.data;

@@ -85,7 +85,7 @@
             <el-table-column label="客户名称" align="center">
                 <template slot-scope="scope">
                     <el-row v-if="scope.row.consumer&&scope.row.consumer.length>0" :title="scope.row.customerTitle">
-                        <el-col v-for="(item,index) in scope.row.consumer" v-if="index<5">
+                        <el-col v-for="(item,index) in scope.row.consumer" :key="index" v-if="index<5">
                             {{item.consumer_name}}
                         </el-col>
                         <el-col v-else>......</el-col>
@@ -97,7 +97,7 @@
                 <template slot-scope="scope">
                     <el-row v-if="scope.row.consumer&&scope.row.consumer.length>0"
                             :title="scope.row.customerShortTitle">
-                        <el-col v-for="(item,index) in scope.row.consumer" v-if="index<5">
+                        <el-col v-for="(item,index) in scope.row.consumer"  :key="index" v-if="index<5">
                             {{item.short_name}}
                         </el-col>
                         <el-col v-else>......</el-col>
@@ -108,7 +108,7 @@
             <el-table-column label="业务员" align="center">
                 <template slot-scope="scope">
                     <el-row v-if="scope.row.consumer&&scope.row.consumer.length>0" :title="scope.row.saleManTitle">
-                        <el-col v-for="(item,index) in scope.row.consumer" v-if="index<5">
+                        <el-col v-for="(item,index) in scope.row.consumer"  :key="index" v-if="index<5">
                             {{item.sale_man_name}}
                         </el-col>
                         <el-col v-else>......</el-col>
@@ -125,7 +125,7 @@
             <!--</template>-->
             <!--</el-table-column>-->
             <el-table-column label="操作" width="150">
-                <template scope="scope">
+                <template slot-scope="scope">
                     <el-button size="small" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
                     <el-button type="danger" size="small" @click="handleDel(scope.$index, scope.row)">删除</el-button>
                 </template>
@@ -213,7 +213,11 @@
 <script>
     import util from '../../common/js/util'
     //import NProgress from 'nprogress'
-    import {getUserListPage, removeUser, batchRemoveUser, editUser, addUser} from '../../api/api';
+    import getUserListPage from '../../api/api';
+    import removeUser from '../../api/api';
+    import batchRemoveUser from '../../api/api';
+    import editUser from '../../api/api';
+    import addUser from '../../api/api';
 
     export default {
         data() {
@@ -323,7 +327,7 @@
                     sendData.page = 1;
                 }
                 sendData.pageSize = vm.pageData.pageSize;
-                this.$$http01('searchCustomerPayList', sendData).then(function (result) {
+                this.$$http('searchCustomerPayList', sendData).then(function (result) {
                     vm.pageStatus = false;
                     if (result.data.code == 0) {
                         vm.tableData = result.data.data.data;

@@ -57,7 +57,7 @@
                                 <!--</template>-->
                             </el-table-column>
                             <el-table-column label="操作" align="center">
-                                <template scope="scope">
+                                <template slot-scope="scope">
                                     <el-button type="primary" size="mini" @click="arapDialogEdit('update',scope.row)">
                                         修改
                                     </el-button>
@@ -173,7 +173,7 @@
 
                 this.pageLoading = true;
 
-                this.$$http01('getPaymentList', postData).then((results) => {
+                this.$$http('getPaymentList', postData).then((results) => {
                     this.pageLoading = false;
                     if (results.data && results.data.code == 0) {
                         this.tableData = results.data.data.data;

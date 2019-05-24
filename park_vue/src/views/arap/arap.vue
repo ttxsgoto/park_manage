@@ -185,7 +185,7 @@
                 this.pageLoading = true;
                 this.exportPostData = postData
 
-                this.$$http01('getSupplierList', postData).then((results) => {
+                this.$$http('getSupplierList', postData).then((results) => {
                     this.pageLoading = false;
                     if (results.data && results.data.code == 0) {
                         this.tableData = results.data.data.data;
@@ -200,7 +200,7 @@
                 let postData = {
                     need_all: true,
                 }
-                this.$$http01('SupplierList', postData).then((results) => {
+                this.$$http('SupplierList', postData).then((results) => {
                     if (results.data && results.data.code == 0) {
                         this.selectData.supplierSelect = results.data.data;
                     }

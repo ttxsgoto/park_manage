@@ -47,13 +47,13 @@
                 <div class="operation-btn text-right" style="border:5px;text-align:right;float:right">
                 </div>
                 <div class="table-list">
-                    <el-table :data="tableData" stripe style="width: 100%" size="mini" max-height="600"
+                    <el-table :data="tableData" stripe style="width: 100%" size="mini"
                               v-loading="pageLoading" :class="{'tabal-height-500':!tableData.length}">
                         <el-table-column v-for="(item,key) in thTableList" :key="key" :prop="item.param"
                                          align="center" :label="item.title" :width="item.width">
                         </el-table-column>
                         <el-table-column label="操作" align="center">
-                            <template scope="scope">
+                            <template slot-scope="scope">
                                 <el-button type="primary" size="mini" @click="arapDialogEdit('update',scope.row)">
                                     详情
                                 </el-button>
@@ -184,7 +184,7 @@
                 postData[this.searchPostData.field] = this.searchPostData.keyword;
                 postData = this.pbFunc.fifterObjIsNull(postData);
                 this.pageLoading = true;
-                this.$$http01('list_car_postions', postData).then((results) => {
+                this.$$http('list_car_postions', postData).then((results) => {
                     this.pageLoading = false;
                     if (results.data && results.data.code == 0) {
                         this.tableData = results.data.data.data;

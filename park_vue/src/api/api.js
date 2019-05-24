@@ -1,5 +1,5 @@
-const api01 = {
-    login01: {
+const api = {
+    login: {
         url: '/auth_ttxs/jwt/login/',
         method: 'post',
         notNeedToken: true,
@@ -85,4 +85,4 @@ const api01 = {
     }
 };
 
-export default api01
+export default api

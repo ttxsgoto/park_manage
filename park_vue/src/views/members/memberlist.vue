@@ -41,7 +41,7 @@
                                          align="center" :label="item.title" :width="item.width">
                         </el-table-column>
                         <el-table-column label="操作" align="center">
-                            <template scope="scope">
+                            <template slot-scope="scope">
                                 <el-button type="primary" size="mini" @click="arapDialogEdit('update',scope.row)">
                                     修改
                                 </el-button>
@@ -203,7 +203,7 @@
                     this.$confirm('确认删除该记录吗?', '提示', {
                         type: 'warning'
                     }).then(() => {
-                        this.$$http01('del_members', {id: id}).then((results) => {
+                        this.$$http('del_members', {id: id}).then((results) => {
                             if (results.data && results.data.code == 0) {
                                 this.$message({
                                     message: '删除会员成功',
@@ -254,7 +254,7 @@
                 postData[this.searchPostData.field] = this.searchPostData.keyword;
                 postData = this.pbFunc.fifterObjIsNull(postData);
                 this.pageLoading = true;
-                this.$$http01('list_members', postData).then((results) => {
+                this.$$http('list_members', postData).then((results) => {
                     this.pageLoading = false;
                     if (results.data && results.data.code == 0) {
                         this.tableData = results.data.data.data;

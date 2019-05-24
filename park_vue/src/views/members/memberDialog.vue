@@ -156,7 +156,7 @@
                     is_valid: 'True'
                 }
                 this.supplierLoading = true;
-                this.$$http01('list_car_postions', postData).then((results) => {
+                this.$$http('list_car_postions', postData).then((results) => {
                     this.supplierLoading = false;
                     if (results.data && results.data.code == 0) {
                         this.PostionListSelect = results.data.data.data;
@@ -187,7 +187,7 @@
                         } else {
                             apiName = 'add_members';
                         }
-                        this.$$http01(apiName, postData).then((results) => {
+                        this.$$http(apiName, postData).then((results) => {
                             this.submitBtn = {
                                 btnText: '保存',
                                 isDisabled: false,
