@@ -44,6 +44,10 @@ asyncio.wait()是一个协程，不会阻塞，立即返回，返回的是协程
 """
 
 
+def done_callback(future):
+    print('result: ', future.result())
+
+
 async def coroutine_example(name, time):
     print('begin')
     await asyncio.sleep(time)
@@ -54,12 +58,26 @@ async def coroutine_example(name, time):
 def main_task_result():
     start_time = time.time()
     loop = asyncio.get_event_loop()
-    tasks = [loop.create_task(coroutine_example('begin' + str(i), i)) for i in range(5)]
+    time_list = [2, 3, 5, 1, 4]
+    """begin create_task"""
+    # tasks = [loop.create_task(coroutine_example('begin' + str(i), i)) for i in range(5)]
+    tasks = [loop.create_task(coroutine_example('begin' + str(i), i)) for i in time_list]
+    print(len(tasks))
     wait_coro = asyncio.wait(tasks)
     loop.run_until_complete(wait_coro)
     for task in tasks:
-        print('result---->', task.result())
-        # print(f'result---{task.result()}')
+        print(f'result---{task.result()}')
+    """end create_task"""
+    """begin done callback"""
+    tasks = []
+    for i in time_list:
+        task = loop.create_task(coroutine_example('callback ' + str(i), i))
+        task.add_done_callback(done_callback)
+        tasks.append(task)
+    wait_coro01 = asyncio.wait(tasks)
+    loop.run_until_complete(wait_coro01)
+    """end done callback"""
+
     loop.close()
     print('end time:', time.time() - start_time)
     # asyncio.run(wait_coro)
