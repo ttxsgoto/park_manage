@@ -3,6 +3,7 @@
 """
 Describe:
 https://zhuanlan.zhihu.com/p/59621713
+https://realpython.com/async-io-python/
 1.事件循环
 管理所有的事件，在整个程序运行过程中不断循环执行并追踪事件发生的顺序将它们放在队列中，空闲时调用相应的事件处理者来处理这些事件
 
@@ -56,7 +57,8 @@ async def coroutine_example(name, time):
 
 
 def main_task_result():
-    start_time = time.time()
+    # start_time = time.time()
+    start_time = time.perf_counter()
     loop = asyncio.get_event_loop()
     time_list = [2, 3, 5, 1, 4]
     """begin create_task"""
@@ -79,7 +81,8 @@ def main_task_result():
     """end done callback"""
 
     loop.close()
-    print('end time:', time.time() - start_time)
+    # print('end time:', time.time() - start_time)
+    print('end time:', time.perf_counter() - start_time)
     # asyncio.run(wait_coro)
 
 
